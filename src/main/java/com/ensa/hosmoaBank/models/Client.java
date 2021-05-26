@@ -9,23 +9,25 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "clients")
-public class Client {
+
+public class Client extends User{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id_client")
-	private Long id;
-	@Column(name = "firts_name")
-	private String firstName;
-	@Column(name = "last_name")
-	private String lastName;
-	@Column(name = "agent")
-	private Agent agent;
 	
-	private Collection<Beneficiary> beneficiaries;
-	private Collection<Transfer> transfers;
-	private Collection<Account> accounts;
+	  @Column(name = "firts_name") 
+	  private String firstName;
+	  
+	  @Column(name = "last_name") 
+	  private String lastName;
+	  
+	  @ManyToOne @JoinColumn(name = "id_agent")
+	  private Agent agent;
+	  
+	  @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+	  private Collection<Beneficiary> beneficiaries;
+	  
+	  private Collection<Transfer>transfers;
+	  @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+	  private Collection<Account> accounts;
+	 
 
 }

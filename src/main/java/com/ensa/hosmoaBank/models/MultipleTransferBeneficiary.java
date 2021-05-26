@@ -4,8 +4,7 @@ import java.math.*;
 import javax.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "multiple_transfer_beneficiaries")
+
 @Data
 @NoArgsConstructor @AllArgsConstructor
 public class MultipleTransferBeneficiary {

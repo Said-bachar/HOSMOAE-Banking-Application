@@ -1,24 +1,28 @@
 package com.ensa.hosmoaBank.models;
 
-import javax.persistence.*;
+
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 import lombok.*;
 
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-@Entity
-@Table(name = "users")
+@MappedSuperclass
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-    @Column(name = "username")
+    
     private String username; 
-    @Column(name = "email", unique = true)
+    
 	private String email;
-    @Column(name = "password")
+   
 	private String password;
-    @Column(name = "email_confirmed")
-    private boolean emailConfirmed;
+    
 }

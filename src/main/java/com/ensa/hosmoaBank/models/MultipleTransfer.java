@@ -7,8 +7,7 @@ import javax.persistence.*;
 import lombok.*;
 
 @Getter @Setter
-@Entity
-@Table(name = "multiple_transfers")
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class MultipleTransfer extends Transfer{
