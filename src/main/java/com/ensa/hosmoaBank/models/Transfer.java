@@ -37,11 +37,11 @@ public class Transfer implements Serializable {
 	  @Column(name = "motif") 
 	  private String motif;
 	  
-	  //Relation : * Transfers ----> 1 Account
-	  
 	  @ManyToOne
-	  @JoinColumn(name = "id_client")
-	  private Account acount;
+	  @JoinColumn(name = "")
+	  private Beneficiary beneficiary;
+	  
+	  private Client client;
 	  
 	 
 
