@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.*;
 
-
+@Entity
 public class Agent extends User{
     
 	@ManyToOne @JoinColumn(name = "id_admin", nullable = false)

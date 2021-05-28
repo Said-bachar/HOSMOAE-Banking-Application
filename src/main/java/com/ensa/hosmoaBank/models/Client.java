@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Entity
 public class Client extends User{
 	
 	
@@ -25,7 +25,9 @@ public class Client extends User{
 	  @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
 	  private Collection<Beneficiary> beneficiaries;
 	  
-	  private Collection<Transfer>transfers;
+	  @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+	  private Collection<Transfer> transfers;
+	  
 	  @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
 	  private Collection<Account> accounts;
 	 

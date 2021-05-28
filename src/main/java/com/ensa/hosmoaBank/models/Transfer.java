@@ -9,10 +9,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Data
+@Entity
+@Table(name = "transfers")
+@Inheritance (strategy = InheritanceType.JOINED)
 public class Transfer implements Serializable {
 
 	
@@ -39,8 +41,10 @@ public class Transfer implements Serializable {
 	  
 	  @ManyToOne
 	  @JoinColumn(name = "")
-	  private Beneficiary beneficiary;
+	  private Account account;
 	  
+	  @ManyToOne 
+	  @JoinColumn(name = "id_client")
 	  private Client client;
 	  
 	 

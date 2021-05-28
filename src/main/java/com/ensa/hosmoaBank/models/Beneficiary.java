@@ -1,5 +1,7 @@
 package com.ensa.hosmoaBank.models;
 
+import java.util.Collection;
+
 import javax.persistence.*;
 
 import lombok.*;
@@ -18,7 +20,10 @@ public class Beneficiary{
     private String fistName;
 	@Column(name = "last_name")
     private String lastName;
-    @OneToOne( fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
-    private Account account;
-	  
+    private Long account_number;
+    @ManyToOne @JoinColumn(name = "id_client", nullable = false)
+	private Client client;
+    @ManyToMany(mappedBy = "beneficiaries")
+    private Collection<MultipleTransfer> multipletransfers;
+    
 }

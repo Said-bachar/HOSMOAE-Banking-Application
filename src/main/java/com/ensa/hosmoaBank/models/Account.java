@@ -6,21 +6,17 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import lombok.*;
 
 @NoArgsConstructor 
 @AllArgsConstructor
 @Data
-
+@Entity
 public class Account {
 	
-	  @Id
-	  @GeneratedValue(generator = "cn-generator")
-	  @GenericGenerator(name = "cn-generator", strategy = "//our utilities") 
-	  @Column(name = "number_account") 
-	  private String numberAccount;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	  
 	  @Column(name = "entitled") 
 	  private String entitled;
@@ -46,6 +42,7 @@ public class Account {
 	  @JoinColumn(name = "id_client")
 	  private Client client;
 	  
+	  @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
 	  private Collection<Transfer> transfers;
 	  
 	  private boolean deleted;
