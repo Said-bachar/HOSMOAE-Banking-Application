@@ -1,20 +1,20 @@
 package com.ensa.hosmoaBank.repositories;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 
-import com.ensa.hosmoaBank.models.Account;
-import com.ensa.hosmoaBank.models.Agent;
-import com.ensa.hosmoaBank.models.Beneficiary;
-import com.ensa.hosmoaBank.models.Client;
-import com.ensa.hosmoaBank.models.Transfer;
+import com.ensa.hosmoaBank.models.*;
 
+
+@RepositoryRestController
 public interface ClientRepository extends JpaRepository<Client, Long>{
+	 
+	Optional<Client> findByUser(User user);
+    Client findClientByComptes(Account account);
+
+    Collection<Client> findAllByAgenceId(Long id);
 	
-	public Client findByAccountsIn(Collection<Account> accounts);
-	public Collection<Client> findByAgent(Agent agenct);
-	//public Client findAllByMultipleTransfer(MultipleTransfer multipleTransfer);
-	public Collection<Client> findByTransfersIn(Collection<Transfer> transfers);
-	public Collection<Client> findByBeneficiariesIn(Collection<Beneficiary> beneficiaries);
 }
