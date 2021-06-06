@@ -3,7 +3,7 @@ package com.ensa.hosmoaBank.models;
 import lombok.Data;
 
 @Data
-class ChangePasswordRequest {
+public class ChangePasswordRequest {
 	private String oldPassword;
 	private String newPassword;
 	private String confirmedPassword;
