@@ -24,7 +24,7 @@ import lombok.*;
 @Entity
 @JsonPropertyOrder({"user"})
 @Table(name = "clients")
-@SQLDelete(sql = "UPDATE client SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE clients SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
 public class Client {
 	
