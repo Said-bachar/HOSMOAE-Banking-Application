@@ -26,8 +26,8 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
 	@Autowired
     private JwtFilter jwtFilter;
 
-    //@Autowired
-   // private JwtAuthEntryPoint jwtAuthenticationEntryPoint;
+    @Autowired
+    private JwtAuthEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
