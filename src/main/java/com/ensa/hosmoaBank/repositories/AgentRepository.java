@@ -11,7 +11,7 @@ import com.ensa.hosmoaBank.models.User;
 @RepositoryRestController
 public interface AgentRepository extends JpaRepository<Agent, Long>{
 	
-	//Get Agent by user
+	
 	Optional<Agent> findByUser(User user);
 	
 	

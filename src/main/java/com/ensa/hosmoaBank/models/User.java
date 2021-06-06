@@ -64,6 +64,9 @@ public class User implements UserDetails{
     
     protected Boolean archived;
     
+    @JsonIgnore
+    private String secretKey;
+    
     // for 2Fa
     private Boolean _2FaEnabled;
     
