@@ -1,6 +1,6 @@
 package com.ensa.hosmoaBank.models;
 
-import java.util.Collection;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity
 @Table(name = "cities")
 public class City {
@@ -16,9 +17,10 @@ public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String name;
 	
-	 @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
-	Collection<Agency> agencies;
+	 @OneToMany(mappedBy = "city")
+	private List<Agency> agencies;
 
 }
