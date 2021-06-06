@@ -21,19 +21,20 @@ import lombok.Data;
 @Component
 public class JWTUtils {
     
-	@Autowired
-	private UserRepository userRepository;
-	
-	private String token = "";
-	
-	private String CLAIMS_USER = "user";
-	
-	private Long tokenValidity = 604800L;
-	
 	@Value("${security.jwt.secret}")
-	private String secret = "HOSMOA_BEST_BANK_SECRET_KEY";
-	
-	//Get username from JWT token
+    private String secret = "HOSMOABANK_SECRET_KEY";
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private long TokenValidity = 604800L;
+
+    private String token = "";
+
+
+    private String CLAIMS_USER = "user";
+
+    //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
@@ -41,12 +42,8 @@ public class JWTUtils {
     public User getUserFromToken() {
         return new ObjectMapper().convertValue(getClaims(token).get(CLAIMS_USER), User.class);
     }
-    
-    /*
-        /!\ We need to implements same function for Admin, Agent, Admin
-     */
 
-    //Get expiration date from JWT token
+    //retrieve expiration date from jwt token
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -56,13 +53,51 @@ public class JWTUtils {
         return claimsResolver.apply(claims);
     }
 
-    //Getting any information from token we will need the secret key
+    //for retrieveing any information from token we will need the secret key
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
-    
-    
-    //Get Claims from token
+
+    //check if the token has expired
+    private Boolean isTokenExpired(String token) {
+        final Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(new Date());
+    }
+
+    //generate token for user
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userDetails.getUsername());
+    }
+
+
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
+        User user = userRepository.findByEmail(subject);
+        claims.put(CLAIMS_USER,
+            User.builder()
+                .email(user.getEmail())
+                .id(user.getId())
+                .role(user.getRole())
+                .lastName(user.getLastName())
+                .firstName(user.getFirstName())
+                .picture(user.getPicture())
+                .build()
+        );
+        return Jwts.
+            builder()
+            .setClaims(claims)
+            .setSubject(subject)
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(generateDateExpiration())
+            .signWith(SignatureAlgorithm.HS512, secret)
+            .compact();
+    }
+
+    private Date generateDateExpiration() {
+
+        return new Date(System.currentTimeMillis() + (TokenValidity * 1000));
+    }
+
     public Claims getClaims(String token) {
 
         Claims claims;
@@ -76,47 +111,7 @@ public class JWTUtils {
         }
         return claims;
     }
-    
-    //check if the token has expired
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
-    }
 
-    //Generate token for user
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
-    }
-    
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-        User user = userRepository.findByEmail(subject);
-        claims.put(CLAIMS_USER,
-            User.builder()
-                .email(user.getEmail())
-                .id(user.getId())
-                .role(user.getRole())
-                .username(user.getUsername())
-                .build()
-        );
-        return Jwts.
-            builder()
-            .setClaims(claims)
-            .setSubject(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(generateDateExpiration())
-            .signWith(SignatureAlgorithm.HS512, secret)
-            .compact();
-    }
-    
-    
-    //Generating expiration date :
-    private Date generateDateExpiration() {
-
-        return new Date(System.currentTimeMillis() + (tokenValidity * 1000));
-    }
-    
-  //Generating name from Token :
     public String generateNameFromToken(String token) {
         try {
             Claims claims = getClaims(token);
@@ -127,19 +122,16 @@ public class JWTUtils {
         }
     }
 
-    //Validate a token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    // Check if a token is valid
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = generateNameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isNotTokenExpired(token));
     }
-    
-    //Check if token is not expired
+
     private boolean isNotTokenExpired(String token) {
         Date expiration = getClaims(token).getExpiration();
         return expiration.before(new Date());
