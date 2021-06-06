@@ -6,8 +6,10 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
 import com.ensa.hosmoaBank.enumerations.AccountStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,9 +31,11 @@ import lombok.*;
 @JsonPropertyOrder({ "accountNumber" })
 public class Account {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String accountNumber;
+	  @Id
+	  @GeneratedValue(generator = "cn-generator")
+      @GenericGenerator(name = "cn-generator", strategy = "com.ensa.hosmoaBank.utilities.CreditCardNumberGenerator")
+	  @CreditCardNumber
+	  private String accountNumber;
 	  
 	  private String entitled;
 	  
