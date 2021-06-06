@@ -1,6 +1,6 @@
 package com.ensa.hosmoaBank.models;
 
-
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -8,17 +8,19 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+@Builder
 @Entity
-@Table(name = "multipletransfers")
-public class MultipleTransfer {
-
-    
+@Table(name = "cities")
+public class City {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private int numBeneficiaries;
 	
+	private String name;
+	
+	 @OneToMany(mappedBy = "city")
+	private List<Agency> agencies;
 
 }
