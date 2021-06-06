@@ -68,8 +68,8 @@ public class Account {
       @JsonIgnoreProperties({"account"})
       private Collection<Transfer> transfers; // Relation : * Account ---> 0..* Transfer
 
-//      @OneToMany(mappedBy = "compte",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
-//      private Collection<Recharge> recharges; //pour la relation : chaque compte a 0 ou pls recharge
+      @OneToMany(mappedBy = "compte",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+      private Collection<Recharge> recharges; 
 
 
       // triggered at begining of transaction : generate default values for Account
