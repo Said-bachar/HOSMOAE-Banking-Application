@@ -17,8 +17,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import com.ensa.hosmoaBank.StorageException;
 import com.ensa.hosmoaBank.config.Storage;
+import com.ensa.hosmoaBank.exceptions.StorageException;
 import com.ensa.hosmoaBank.utilities.FilenameUtils;
 
 @Service
