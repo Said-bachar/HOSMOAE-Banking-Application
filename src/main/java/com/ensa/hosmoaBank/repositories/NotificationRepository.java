@@ -6,6 +6,6 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import com.ensa.hosmoaBank.models.Notification;
 
 @RepositoryRestController
-public interface NotificationRepositroty extends JpaRepository<Notification, Long>{
+public interface NotificationRepository extends JpaRepository<Notification, Long>{
 
 }
