@@ -18,6 +18,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @JsonPropertyOrder({ "user" })
 public class Admin {
 	
