@@ -25,8 +25,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "accounts")
-@SQLDelete(sql = "UPDATE accounts SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE account SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
 @JsonPropertyOrder({ "accountNumber" })
 public class Account {

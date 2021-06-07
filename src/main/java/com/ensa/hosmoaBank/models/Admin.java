@@ -13,7 +13,6 @@ import lombok.*;
  
 
 @Entity
-@Table(name = "admins")
 @Getter
 @Setter
 @AllArgsConstructor

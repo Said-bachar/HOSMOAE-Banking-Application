@@ -28,7 +28,6 @@ import lombok.*;
 //@MappedSuperclass
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Builder
-@Table(name = "users")
 public class User implements UserDetails{
 	
 	

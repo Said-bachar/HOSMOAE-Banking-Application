@@ -11,7 +11,6 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "multipletransfers")
 public class MultipleTransfer {
 
     
