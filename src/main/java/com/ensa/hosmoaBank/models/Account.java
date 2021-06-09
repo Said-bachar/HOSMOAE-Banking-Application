@@ -71,7 +71,7 @@ public class Account {
       @JsonIgnoreProperties({"account"})
       private Collection<Transfer> transfers; // Relation : * Account ---> 0..* Transfer
 
-      @OneToMany(mappedBy = "compte",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+      @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
       private Collection<Recharge> recharges; 
 
 
