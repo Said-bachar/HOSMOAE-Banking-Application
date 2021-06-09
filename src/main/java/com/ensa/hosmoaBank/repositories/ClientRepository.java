@@ -13,8 +13,8 @@ import com.ensa.hosmoaBank.models.*;
 public interface ClientRepository extends JpaRepository<Client, Long>{
 	 
 	Optional<Client> findByUser(User user);
-    Client findClientByComptes(Account account);
+    Client findClientByAccounts(Account account);
 
-    Collection<Client> findAllByAgenceId(Long id);
+    Collection<Client> findAllByAgencyId(Long id);
 	
 }
