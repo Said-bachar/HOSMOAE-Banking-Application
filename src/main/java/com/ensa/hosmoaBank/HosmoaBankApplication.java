@@ -96,7 +96,7 @@ public class HosmoaBankApplication implements CommandLineRunner{
 //	                .firstName("Haitham")
 //	                .role(Role.AGENT)
 //	                .password(encoder.encode("Haitham"))
-//	                .email("oussama@gmail.com")
+//	                .email("haitham@gmail.com")
 //	                .phoneNumber("+212123456789")
 //	                .city("AGADIR")
 //	                .adress("ENSA RUE N 1 ")
@@ -130,7 +130,7 @@ public class HosmoaBankApplication implements CommandLineRunner{
 //	                .password("oumaima")
 //	                .role(Role.CLIENT)
 //	                .emailConfirmed(true)
-//	                .email("pumaima@gmail.com")
+//	                .email("oumaima@gmail.com")
 //	                .city("MARRAKECH")
 //	                .adress("ENSA RUE N 4 ")
 //	                .phoneNumber("+2126444444444")
@@ -202,6 +202,7 @@ public class HosmoaBankApplication implements CommandLineRunner{
 //	                .statut(AccountStatus.ACTIVE)
 //	                .build());
 
+		
 //	        Virement virement = virementRepository.save(Virement
 //	                .builder()
 //	                .compte(compte1)
