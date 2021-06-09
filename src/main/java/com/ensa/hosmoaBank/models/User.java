@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ensa.hosmoaBank.enumerations.Role;
+import com.ensa.hosmoaBank.utilities.VerificationTokenGenerator;
 import com.fasterxml.jackson.annotation.*;
 
 import lombok.*;
@@ -113,7 +114,7 @@ public class User implements UserDetails{
         emailConfirmed = false;
         archived = false;
         _2FaEnabled = false;
-        //verificationToken = VerificationTokenGenerator.generateVerificationToken();
+        verificationToken = VerificationTokenGenerator.generateVerificationToken();
     }
 	
 
