@@ -18,6 +18,15 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+	
+		<!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-core -->
+		<dependency>
+		    <groupId>io.projectreactor</groupId>
+		    <artifactId>reactor-core</artifactId>
+		    <version>3.4.5</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+
+	   
 			<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
