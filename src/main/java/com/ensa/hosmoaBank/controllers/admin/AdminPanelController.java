@@ -162,7 +162,7 @@ public class AdminPanelController {
         Admin admin = adminRepository.getOne((long) 1);
         agency = Agency.builder().city(agency.getCity()).agencyWording(agency.getAgencyWording()).admin(admin).build();
         agencyRepository.save(agency);
-        return "redirect:/admin/agences";
+        return "redirect:/admin/agencies";
     }
     @GetMapping("agencies/update/{id}")
     public String updateAgenceView(Model model, @PathVariable(value = "id") Long id) {
