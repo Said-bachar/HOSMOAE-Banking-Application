@@ -11,7 +11,7 @@ import com.ensa.hosmoaBank.models.User;
 @RepositoryRestController
 public interface UserRepository extends JpaRepository<User, Long>{
 	
-	List<User> findAllByRoleIsNotOrderByDateDeCreationDesc(Role role);
+	List<User> findAllByRoleIsNotOrderByDateOfCreationDesc(Role role);
 
     List<User> findAllByRole(Role role);
 
