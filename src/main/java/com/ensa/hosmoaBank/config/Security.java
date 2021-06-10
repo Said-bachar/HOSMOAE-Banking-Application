@@ -54,7 +54,9 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
                 anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-
+        
+        // Add JWT token filter
+        
         httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
