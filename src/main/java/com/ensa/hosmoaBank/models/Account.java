@@ -6,8 +6,10 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
 import com.ensa.hosmoaBank.enumerations.AccountStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,15 +25,16 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "accounts")
-@SQLDelete(sql = "UPDATE accounts SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE account SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
 @JsonPropertyOrder({ "accountNumber" })
 public class Account {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String accountNumber;
+	  @Id
+	  @GeneratedValue(generator = "cn-generator")
+      @GenericGenerator(name = "cn-generator", strategy = "com.ensa.hosmoaBank.utilities.CreditCardNumberGenerator")
+	  @CreditCardNumber
+	  private String accountNumber;
 	  
 	  private String entitled;
 	  
@@ -68,7 +71,7 @@ public class Account {
       @JsonIgnoreProperties({"account"})
       private Collection<Transfer> transfers; // Relation : * Account ---> 0..* Transfer
 
-      @OneToMany(mappedBy = "compte",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+      @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
       private Collection<Recharge> recharges; 
 
 

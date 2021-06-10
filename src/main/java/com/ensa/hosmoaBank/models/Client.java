@@ -5,7 +5,6 @@ import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.*;
 
 import org.hibernate.annotations.*;
@@ -23,8 +22,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @JsonPropertyOrder({"user"})
-@Table(name = "clients")
-@SQLDelete(sql = "UPDATE clients SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE client SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
 public class Client {
 	

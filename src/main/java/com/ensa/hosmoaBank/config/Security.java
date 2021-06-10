@@ -42,7 +42,7 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin().loginPage("/admin/login").defaultSuccessUrl("/admin", true);
+        httpSecurity.formLogin().loginPage("/admin/login").defaultSuccessUrl("/admin", true); //true !!
 
 //      Disable CSRF
         httpSecurity.cors().disable().csrf().disable()
@@ -54,7 +54,9 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
                 anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-
+        
+        // Add JWT token filter
+        
         httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
@@ -62,7 +64,7 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowCredentials(true)
+            .allowCredentials(false)    //true!!
             .allowedHeaders("*")
             .allowedMethods("GET, POST, PATCH, PUT, DELETE, OPTIONS")
             .allowedOrigins("*");

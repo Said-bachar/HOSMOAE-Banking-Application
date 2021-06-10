@@ -18,8 +18,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Builder
-@Table(name = "requests")
-@SQLDelete(sql = "UPDATE requests SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE request SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
 public class Request {
 	

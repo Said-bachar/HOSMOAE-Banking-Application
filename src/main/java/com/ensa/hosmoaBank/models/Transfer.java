@@ -22,8 +22,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "transfers")
-@SQLDelete(sql = "UPDATE transfers SET deleted=true WHERE id_virement=?")
+@SQLDelete(sql = "UPDATE transfer SET deleted=true WHERE id_virement=?")
 @Where(clause = "deleted = false")
 //@Inheritance (strategy = InheritanceType.JOINED)
 public class Transfer implements Serializable {

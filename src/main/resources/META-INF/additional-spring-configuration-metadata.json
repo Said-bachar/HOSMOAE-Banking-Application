@@ -1,13 +1,13 @@
 {"properties": [
   {
-    "name": "jwt.header",
+    "name": "mail.from",
     "type": "java.lang.String",
-    "description": "A description for 'jwt.header'"
+    "description": "Description for mail.from."
   },
   {
-    "name": "jwt.secret",
+    "name": "security.jwt.secret",
     "type": "java.lang.String",
-    "description": "A description for 'jwt.secret'"
+    "description": "Description for security.jwt.secret."
   },
   {
     "name": "security.jwt.header",
@@ -15,8 +15,13 @@
     "description": "A description for 'security.jwt.header'"
   },
   {
-    "name": "security.jwt.secret",
+    "name": "mailgun.domain",
     "type": "java.lang.String",
-    "description": "A description for 'security.jwt.secret'"
+    "description": "A description for 'mailgun.domain'"
+  },
+  {
+    "name": "mailgun.apikey",
+    "type": "java.lang.String",
+    "description": "A description for 'mailgun.apikey'"
   }
 ]}
