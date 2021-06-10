@@ -62,10 +62,11 @@ public class AdminPanelController {
     public String login(){
 //        Redirect user to hompage if he's already authenticated
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return "redirect:/admin";
         }
-        return ADMIN_VIEWS_PATH + "login";
+        return ADMIN_VIEWS_PATH + "login2";
     }
     @PostMapping("/logout")
     public String logout(HttpServletRequest request){
@@ -85,7 +86,7 @@ public class AdminPanelController {
 
     @GetMapping("users/add")
     public String addUserView(Model model) {
-        model.addAttribute("agences", agencyRepository.findAll());
+        model.addAttribute("agencies", agencyRepository.findAll());
         model.addAttribute("user", new User());
         return ADMIN_VIEWS_PATH + "forms/user.add";
     }
