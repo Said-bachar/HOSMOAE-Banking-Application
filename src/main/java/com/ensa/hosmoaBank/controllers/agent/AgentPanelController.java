@@ -23,13 +23,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.*;
 
-@RestController
+/*@RestController
 @RequestMapping("/agent/api")
 @Transactional
-@CrossOrigin(value = "*")
+@CrossOrigin(value = "*")*/
 public class AgentPanelController {
 
-  Logger logger = LoggerFactory.getLogger(AgentPanelController.class);
+  /*Logger logger = LoggerFactory.getLogger(AgentPanelController.class);
 
   @Autowired
   private AgentRepository agentRepository;
@@ -311,6 +311,6 @@ public class AgentPanelController {
 
       return  requestRepository.findAll();
 
-  }
+  }*/
 
 }

@@ -22,9 +22,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@SQLDelete(sql = "UPDATE agencies SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE agency SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
-@Table(name = "agencies")
 public class Agency implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

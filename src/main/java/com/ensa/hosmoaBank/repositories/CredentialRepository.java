@@ -3,10 +3,12 @@ package com.ensa.hosmoaBank.repositories;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.ensa.hosmoaBank.models.User;
 import com.warrenstrange.googleauth.ICredentialRepository;
 
+@Component
 public class CredentialRepository implements ICredentialRepository{
 	  
 	@Autowired

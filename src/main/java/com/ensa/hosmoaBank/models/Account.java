@@ -25,8 +25,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "accounts")
-@SQLDelete(sql = "UPDATE accounts SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE account SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
 @JsonPropertyOrder({ "accountNumber" })
 public class Account {
@@ -72,7 +71,7 @@ public class Account {
       @JsonIgnoreProperties({"account"})
       private Collection<Transfer> transfers; // Relation : * Account ---> 0..* Transfer
 
-      @OneToMany(mappedBy = "compte",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+      @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
       private Collection<Recharge> recharges; 
 
 

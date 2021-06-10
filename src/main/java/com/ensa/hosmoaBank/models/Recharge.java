@@ -19,9 +19,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@SQLDelete(sql = "UPDATE recharges SET deleted=true WHERE id=?")
+@SQLDelete(sql = "UPDATE recharge SET deleted=true WHERE id=?")
 @Where(clause = "deleted = false")
-@Table(name = "recharges")
 public class Recharge {
      
 	@Id 

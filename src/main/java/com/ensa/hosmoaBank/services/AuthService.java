@@ -20,9 +20,9 @@ import com.ensa.hosmoaBank.utilities.JWTUtils;
 
 import lombok.Data;
 
-@Service
 @Data
-public class AuthService implements UserDetailsService { //implements UserDetailsService
+@Service
+public class AuthService implements UserDetailsService { 
 	
 	@Autowired
     private UserRepository userRepository;
@@ -36,6 +36,7 @@ public class AuthService implements UserDetailsService { //implements UserDetail
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
+        System.out.println(user);
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
     }

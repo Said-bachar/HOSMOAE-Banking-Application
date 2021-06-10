@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import com.ensa.hosmoaBank.models.User;
 import com.ensa.hosmoaBank.repositories.UserRepository;
 import com.ensa.hosmoaBank.services.AuthService;
 import com.ensa.hosmoaBank.utilities.JWTUtils;
@@ -42,10 +43,10 @@ public class JwtFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
         final String requestTokenHeader = httpServletRequest.getHeader(TOKEN_HEADER);
-//        System.out.println(httpServletRequest.getParameter("username"));
-//        System.out.println(httpServletRequest.getRequestURI());
-//        User user = userRepository.findByEmail(httpServletRequest.getParameter("username"));
-//        System.out.println(user.getRole());
+        System.out.println(httpServletRequest.getParameter("username"));
+        System.out.println(httpServletRequest.getRequestURI());
+        User user = userRepository.findByEmail(httpServletRequest.getParameter("username"));
+        System.out.println(user.getRole());
 
 
         String username = null;
