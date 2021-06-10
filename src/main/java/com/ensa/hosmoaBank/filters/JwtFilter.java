@@ -41,16 +41,19 @@ public class JwtFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-
+        
+    	//Get authorization header and validate
         final String requestTokenHeader = httpServletRequest.getHeader(TOKEN_HEADER);
-        System.out.println(httpServletRequest.getParameter("username"));
-        System.out.println(httpServletRequest.getRequestURI());
-        User user = userRepository.findByEmail(httpServletRequest.getParameter("username"));
-        System.out.println(user.getRole());
+//        System.out.println(httpServletRequest.getParameter("username"));
+//        System.out.println(httpServletRequest.getRequestURI());
+//        User user = userRepository.findByEmail(httpServletRequest.getParameter("username"));
+//        System.out.println(user.getRole());
 
 
         String username = null;
         String jwtToken = null;
+        
+        System.out.println(requestTokenHeader);
 
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
