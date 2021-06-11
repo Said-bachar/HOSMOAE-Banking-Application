@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')">
+</head>
 <body>
 <nav th:replace="views/admin/fragments :: navbar"></nav>
-<div th:replace="views/admin/fragments ::
+<!--<div th:replace="views/admin/fragments ::
     header(title = 'Gestion d\'utilisateurs',
     description = 'Ici vous gérer les administrateurs et les agents de l\'application.')">
-</div>
+</div>-->
 <!--Main section-->
-<div class="ml-5 mr-5 mb-5">
-    <a th:href="@{/admin/users/add/}" class="ml-auto mb-2">
-        <button type="button" class="btn mb-3 btn-primary" style="display: block;margin-left: auto;">Ajouter un utilisateur</button>
-    </a>
-    <p th:if="${ #lists.isEmpty(users)}">Aucun utilisateur ajouté.</p>
+<div class="container">
+   <a th:href="@{/admin/users/add/}" class="adduser">
+        <button type="button" class="add">Add a user</button>
+    </a>&nbsp;&nbsp;
+    <p th:if="${ #lists.isEmpty(users)}">No user is registered.</p>
     <table class="table" th:if="${not #lists.isEmpty(users)}">
         <thead>
         <tr>
@@ -34,11 +35,11 @@
             <td th:text="${user.dateOfCreation}">20 Mars 2020</td>
             <td>
                 <a th:href="@{'users/update/' + ${user.id}}">
-                    <button class="btn btn-outline-primary mr-2 btn-sm">update</button>
+                    <button class="update">update</button>
                 </a>
                 <form method="post" style="display: inline-block" th:action="${'/admin/users/delete/' + user.id}">
                     <input type="hidden" name="_method" value="DELETE" id="">
-                    <button class="btn btn-outline-danger btn-sm">delete</button>
+                    <button class="delete">delete</button>
                 </form>
             </td>
         </tr>

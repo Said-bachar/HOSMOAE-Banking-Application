@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')">
+</head>
 <body>
 <nav th:replace="views/admin/fragments :: navbar"></nav>
-<div th:replace="views/admin/fragments ::
+<!--<div th:replace="views/admin/fragments ::
     header(title = 'Ajouter un utilisateur',
     description = 'Ici vous ajouter les administrateurs et les agents de l\'application.')">
-</div>
+</div>-->
 <!--Main section-->
-<div class="ml-5 mr-5 mb-5">
+<div class="formcontainer">
     <form  th:object="${user}" method="post" action="/admin/users/add">
-        <div class="form-group">
+        <div class="formdiv">
             <label for="lastName">User last name</label>
-            <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+            <input type="text" class="formin" id="lastName" th:field="*{lastName}" required>
         </div>
-        <div class="form-group">
+        <div class="formdiv">
             <label for="firstName">User first name</label>
-            <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+            <input type="text" class="formin" id="firstName" th:field="*{firstName}" required>
         </div>
-        <div class="form-group">
+        <div class="formdiv">
             <label for="email">User email</label>
-            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+            <input type="email" class="formin" id="email" th:field="*{email}" required>
         </div>
-        <div class="form-group">
+        <div class="formdiv">
             <label for="role">User role</label>
-            <select class="form-control" id="role"  th:field="*{role}">
+            <select class="formin" id="role"  th:field="*{role}">
                 <option value="ADMIN">Administrateur</option>
                 <option value="AGENT" th:if="${not #lists.isEmpty(agencies)}">Agent</option>
             </select>
         </div>
-        <div class="form-group" id="agences-group" th:if="${not #lists.isEmpty(agencies)}">
+        <div class="formdiv" id="agences-group" th:if="${not #lists.isEmpty(agencies)}">
             <label for="agency">Assign to an agency</label>
-            <select class="form-control" id="agency" th:field="*{agent.agency}">
+            <select class="formin" id="agency" th:field="*{agent.agency}">
                 <option th:each="agency: ${agencies}" th:value="${agency.id}" th:text="${agency.city.name + ' / ' + agency.agencyWording}"></option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <div class="savediv"><button type="submit" class="savebtn">Save</button></div>
     </form>
 </div>
 <!---->
