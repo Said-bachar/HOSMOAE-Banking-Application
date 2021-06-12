@@ -62,6 +62,9 @@ public class Client {
 	    @JsonIgnoreProperties({"id","client", "authorities", "username" , "admin"})
 	    @JsonUnwrapped
 	    private User user;
+	    
+	    @OneToMany(fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+	    private Collection<Beneficiary> beneficiaries;
 
 	    //Just for test
 	    public Client(User user,Agent agent,Agency agency) {

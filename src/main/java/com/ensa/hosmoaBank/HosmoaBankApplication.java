@@ -1,7 +1,10 @@
 package com.ensa.hosmoaBank;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +22,11 @@ import com.ensa.hosmoaBank.models.Account;
 import com.ensa.hosmoaBank.models.Admin;
 import com.ensa.hosmoaBank.models.Agency;
 import com.ensa.hosmoaBank.models.Agent;
+import com.ensa.hosmoaBank.models.Beneficiary;
 import com.ensa.hosmoaBank.models.City;
 import com.ensa.hosmoaBank.models.Client;
+import com.ensa.hosmoaBank.models.MultipleTransfer;
+import com.ensa.hosmoaBank.models.MultipleTransferBeneficiary;
 import com.ensa.hosmoaBank.models.Recharge;
 import com.ensa.hosmoaBank.models.Request;
 import com.ensa.hosmoaBank.models.Transfer;
@@ -29,8 +35,11 @@ import com.ensa.hosmoaBank.repositories.AccountRepository;
 import com.ensa.hosmoaBank.repositories.AdminRepository;
 import com.ensa.hosmoaBank.repositories.AgencyRepository;
 import com.ensa.hosmoaBank.repositories.AgentRepository;
+import com.ensa.hosmoaBank.repositories.BeneficiaryRepository;
 import com.ensa.hosmoaBank.repositories.CityRepository;
 import com.ensa.hosmoaBank.repositories.ClientRepository;
+import com.ensa.hosmoaBank.repositories.MultipleTransferBeneficiaryRepository;
+import com.ensa.hosmoaBank.repositories.MultipleTransferRepository;
 import com.ensa.hosmoaBank.repositories.RequestRepository;
 import com.ensa.hosmoaBank.repositories.TransferRepository;
 import com.ensa.hosmoaBank.repositories.UserRepository;
@@ -67,6 +76,14 @@ public class HosmoaBankApplication implements CommandLineRunner{
 	@Autowired
 	TransferRepository  transferRepository;
 
+	@Autowired
+	BeneficiaryRepository  beneficiaryRepository;
+	
+	@Autowired
+	MultipleTransferRepository  multipletransferRepository;
+	
+	@Autowired
+	MultipleTransferBeneficiaryRepository  multipletransferBeneficiaryRepository;
 	
 	@Autowired
     private PasswordEncoder encoder;
@@ -82,6 +99,14 @@ public class HosmoaBankApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception{
 		// TODO Auto-generated method stub
 		
+		Collection<Beneficiary> beneficiaries=new ArrayList<>();
+		
+		Collection<MultipleTransferBeneficiary> multipletransferbeneficiaries = multipletransferRepository.findAll().get(0).getMultipletransferbeneficiary();
+	    
+	    for(MultipleTransferBeneficiary m:multipletransferbeneficiaries) {
+	    	beneficiaries.add(m.getBeneficiary());
+	    	System.out.println(m.getBeneficiary().getFirstName());
+	    }
 		/*City city1 = cityRepo.save(City.builder().name("Marrakech").build());
 		City city2 = cityRepo.save(City.builder().name("Kelaa des sraghna").build());
 		

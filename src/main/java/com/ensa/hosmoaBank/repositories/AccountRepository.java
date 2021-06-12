@@ -22,6 +22,7 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 	    Optional<Account> findByClient_Agent_AgencyAndAccountNumber(Agency Agency, String id);
 
 	    Account findByAccountNumberContaining(String id);
+	    Account findByAccountNumber(String id);
 
 	    Account findAccountByAccountNumberIsContaining(String numeroAccount);
 
