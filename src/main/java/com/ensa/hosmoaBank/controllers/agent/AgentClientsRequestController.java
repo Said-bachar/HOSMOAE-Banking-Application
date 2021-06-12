@@ -1,11 +1,20 @@
 package com.ensa.hosmoaBank.controllers.agent;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ensa.hosmoaBank.models.Notification;
 import com.ensa.hosmoaBank.models.Request;
@@ -14,22 +23,19 @@ import com.ensa.hosmoaBank.repositories.AccountRepository;
 import com.ensa.hosmoaBank.repositories.AgencyRepository;
 import com.ensa.hosmoaBank.repositories.AgentRepository;
 import com.ensa.hosmoaBank.repositories.ClientRepository;
-import com.ensa.hosmoaBank.repositories.NotificationRepositroty;
+import com.ensa.hosmoaBank.repositories.NotificationRepository;
 import com.ensa.hosmoaBank.repositories.RequestRepository;
 import com.ensa.hosmoaBank.repositories.UserRepository;
 import com.ensa.hosmoaBank.services.MailService;
 import com.ensa.hosmoaBank.services.UploadService;
 
-import javax.transaction.Transactional;
-import java.util.List;
-
 @RestController
-@RequestMapping("/agent/api/clients/demandes")
+@RequestMapping("/agent/api/clients/requests")
 @Transactional
 @CrossOrigin(value = "*")
-public class AgentClientsDemandesController {
-
-    Logger logger = LoggerFactory.getLogger(AgentClientsDemandesController.class);
+public class AgentClientsRequestController {
+	
+	Logger logger = LoggerFactory.getLogger(AgentClientsRequestController.class);
 
     @Autowired
     private AgentRepository agentRepository;
@@ -47,10 +53,10 @@ public class AgentClientsDemandesController {
     private AccountRepository accountRepository;
 
     @Autowired
-    private NotificationRepositroty notificationRepository;
+    private NotificationRepository notificationRepository;
 
     @Autowired
-    private RequestRepository demandeRepository;
+    private RequestRepository requestRepository;
 
     @Autowired
     private UploadService uploadService;
@@ -59,8 +65,8 @@ public class AgentClientsDemandesController {
     private MailService mailService;
 
     @PutMapping(value = "/{id}/approve")
-    public ResponseEntity<String> approveDemande (@PathVariable("id") Long id) {
-        Request request = demandeRepository.findById(id).get();
+    public ResponseEntity<String> approveRequest (@PathVariable("id") Long id) {
+        Request request = requestRepository.findById(id).get();
         User clientUser = request.getClient().getUser();
 
         if (request.getEmail() != null && !request.getEmail().equalsIgnoreCase(clientUser.getEmail())) {
@@ -70,15 +76,14 @@ public class AgentClientsDemandesController {
         }
         if (request.getNom() != null)
             clientUser.setLastName(request.getNom());
-        
         if (request.getPrenom() != null)
             clientUser.setFirstName(request.getPrenom());
 
         userRepository.save(clientUser);
-        demandeRepository.delete(request);
+        requestRepository.delete(request);
 
         Notification notification = Notification.builder()
-                .content("Your data are updated with success. See your profil.")
+                .content("Your information has been updated. Check your profile.")
                 .client(clientUser.getClient())
                 .build();
 
@@ -89,8 +94,9 @@ public class AgentClientsDemandesController {
     }
 
     @GetMapping()
-    public List<Request> getDemandes () {
-        return  demandeRepository.findAll();
+    public List<Request> getRequests () {
+        return  requestRepository.findAll();
 
     }
+
 }

@@ -19,7 +19,7 @@ import com.ensa.hosmoaBank.repositories.AccountRepository;
 import com.ensa.hosmoaBank.repositories.AgencyRepository;
 import com.ensa.hosmoaBank.repositories.AgentRepository;
 import com.ensa.hosmoaBank.repositories.ClientRepository;
-import com.ensa.hosmoaBank.repositories.NotificationRepositroty;
+import com.ensa.hosmoaBank.repositories.NotificationRepository;
 import com.ensa.hosmoaBank.repositories.RequestRepository;
 import com.ensa.hosmoaBank.repositories.UserRepository;
 import com.ensa.hosmoaBank.services.MailService;
@@ -55,7 +55,7 @@ public class AgentClientsAccountsController {
 	    private AccountRepository accountRepository;
 
 	    @Autowired
-	    private NotificationRepositroty notificationRepository;
+	    private NotificationRepository notificationRepository;
 
 	    @Autowired
 	    private RequestRepository requestRepository;

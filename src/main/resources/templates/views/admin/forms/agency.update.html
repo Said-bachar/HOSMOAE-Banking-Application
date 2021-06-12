@@ -17,7 +17,7 @@
         <div class="form-group">
             <label for="city">Agency city</label>
             <select class="form-control" id="city" th:field="*{city.id}">
-                <option th:each="city: ${cities}" th:value="${city.id}" th:text="${city.nom}">
+                <option th:each="city: ${cities}" th:value="${city.id}" th:text="${city.name}">
                 </option>
             </select>
         </div>

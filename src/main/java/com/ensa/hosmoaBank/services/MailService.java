@@ -19,6 +19,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.ensa.hosmoaBank.models.Account;
+import com.ensa.hosmoaBank.models.MultipleTransfer;
 import com.ensa.hosmoaBank.models.Transfer;
 import com.ensa.hosmoaBank.models.User;
 
@@ -131,6 +132,29 @@ public class MailService {
             ex.printStackTrace();
         }
     }
+    
+    public void sendMultipleTransferCodeMail(User receiver, MultipleTransfer multipletransfer) {
+        try {
+            MimeMessage message = getMimeMessage(
+                receiver.getEmail(),
+                "Transfer code verification",
+                "Welcome "  + receiver.getFirstName() + " " + receiver.getLastName()
+            );
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+
+            Context context = new Context();
+            context.setVariable("MultipleTransfer", multipletransfer);
+            context.setVariable("receiver", receiver);
+            String content = templateEngine.process("mails/virement", context);
+            messageHelper.setText(content, true);
+            // Send message
+            Transport.send(message);
+            logger.info("Multiple Transfer Message sent successfully.");
+        } catch (MessagingException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     private MimeMessage getMimeMessage(String to, String subject, String text) throws MessagingException {
         // Create a default MimeMessage object.
         MimeMessage message = new MimeMessage(getMailSession());

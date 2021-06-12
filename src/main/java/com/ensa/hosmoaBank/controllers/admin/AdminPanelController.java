@@ -62,7 +62,7 @@ public class AdminPanelController {
     public String login(){
 //        Redirect user to hompage if he's already authenticated
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth);
+       System.out.println(auth);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return "redirect:/admin";
         }

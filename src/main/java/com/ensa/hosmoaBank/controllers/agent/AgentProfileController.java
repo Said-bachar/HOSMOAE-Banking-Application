@@ -1,5 +1,12 @@
 package com.ensa.hosmoaBank.controllers.agent;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +17,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,18 +37,13 @@ import com.ensa.hosmoaBank.repositories.AccountRepository;
 import com.ensa.hosmoaBank.repositories.AgencyRepository;
 import com.ensa.hosmoaBank.repositories.AgentRepository;
 import com.ensa.hosmoaBank.repositories.ClientRepository;
-import com.ensa.hosmoaBank.repositories.NotificationRepositroty;
+import com.ensa.hosmoaBank.repositories.NotificationRepository;
 import com.ensa.hosmoaBank.repositories.RequestRepository;
 import com.ensa.hosmoaBank.repositories.UserRepository;
 import com.ensa.hosmoaBank.services.AuthService;
 import com.ensa.hosmoaBank.services.MailService;
 import com.ensa.hosmoaBank.services.UploadService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/agent/api/profile")
@@ -41,7 +51,7 @@ import java.util.Map;
 @CrossOrigin(value = "*")
 public class AgentProfileController {
 
-    Logger logger = LoggerFactory.getLogger(AgentProfileController.class);
+	Logger logger = LoggerFactory.getLogger(AgentProfileController.class);
 
     @Autowired
     private AgentRepository agentRepository;
@@ -56,10 +66,10 @@ public class AgentProfileController {
     private ClientRepository clientRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountRepository compteRepository;
 
     @Autowired
-    private NotificationRepositroty notificationRepository;
+    private NotificationRepository notificationRepository;
 
     @Autowired
     private RequestRepository requestRepository;
@@ -75,14 +85,14 @@ public class AgentProfileController {
 
     @Autowired
     private PasswordEncoder encoder;
-
+    
     @GetMapping()
     public Agent getAgent() {
         return agentRepository.findByUser(authService.getCurrentUser()).orElseThrow(
-            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The agent is not founded.")
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "agent not found.")
         );
     }
-
+    
     @PostMapping("/avatar/upload")
     @CacheEvict(cacheNames = "clients", allEntries = true)
     public ResponseEntity<?> uploadAvatar(@RequestParam("image") MultipartFile image) {
@@ -111,15 +121,15 @@ public class AgentProfileController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
-
-    @PostMapping("/update/password")
+    
+    @PostMapping("/modifier/password")
     public ResponseEntity changePassword(@RequestBody ChangePasswordRequest passwordChangeRequest) {
         System.out.println(passwordChangeRequest);
         Agent currentAgent = getAgent();
         Boolean isMatch = encoder.matches(passwordChangeRequest.getOldPassword(), currentAgent.getUser().getPassword());
 
         if (!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getConfirmedPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Votre mot de passe ne correspond pas.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Your password confirmation doesn't match.");
         }
 
         if (!isMatch) {
@@ -134,39 +144,31 @@ public class AgentProfileController {
 
 
     }
-
-    @PostMapping("/update/user")
+    
+    @PostMapping("/modifier/user")
     public User modifyAgentParam(@RequestBody User user) {
         System.out.println(user);
         User oldUser = getAgent().getUser();
         user.setPassword(oldUser.getPassword());
         user.setVerificationToken(oldUser.getVerificationToken());
         user.setAgent(getAgent());
-//        user.setAgent(getAgent());
         userRepository.save(user);
 
         return user;
     }
-
+    
     @GetMapping("/avatar/{filename}")
     public ResponseEntity<Resource> getAvatar(HttpServletRequest request, @PathVariable("filename") String filename) {
         Agent agent = getAgent();
         System.out.println(filename);
-
-//        if (agent.getUser().getPhoto() == null )
-//            throw new ResponseStatusException(HttpStatus.OK, "Pas de photo définie.");
-
         Resource resource = uploadService.get(agent.getUser().getPicture());
-
-        // setting content-type header
         String contentType = null;
         try {
-            // setting content-type header according to file type
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException e) {
-            System.out.println("Type indéfini.");
+        } 
+        catch (IOException e) {
+            System.out.println("Indefinite type.");
         }
-        // setting content-type header to generic octet-stream
         if (contentType == null) {
             contentType = "application/octet-stream";
         }
@@ -176,7 +178,6 @@ public class AgentProfileController {
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
             .body(resource);
     }
-
 
     @DeleteMapping("/avatar/delete/{filename}")
     public ResponseEntity deleteAgentPhoto(@PathVariable("filename") String filename) {

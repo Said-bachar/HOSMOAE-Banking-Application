@@ -70,6 +70,10 @@ public class Account {
       @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
       @JsonIgnoreProperties({"account"})
       private Collection<Transfer> transfers; // Relation : * Account ---> 0..* Transfer
+      
+      @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+      @JsonIgnoreProperties({"account"})
+      private Collection<MultipleTransfer> multipletransfers; // Relation : * Account ---> 0..* MultipleTransfer
 
       @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
       private Collection<Recharge> recharges; 

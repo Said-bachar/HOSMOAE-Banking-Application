@@ -4,15 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-//import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
-// Controller for errors views ---> in prod 
-//@Controller
+@Controller
 public class CustomErrorController implements ErrorController {
 
     final String ERROR_VIEWS_PATH = "views/errors/";
@@ -37,7 +36,6 @@ public class CustomErrorController implements ErrorController {
         return ERROR_VIEWS_PATH + "any";
     }
 
-    //@Override
     public String getErrorPath() {
         return "/error";
     }

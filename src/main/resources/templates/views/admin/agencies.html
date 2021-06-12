@@ -32,7 +32,7 @@
             <td >
                 <div th:if="${ #lists.isEmpty(agency.agents)}">No agent assigned.</div>
                 <div th:each="agent: ${agency.agents}"  th:if="${not #lists.isEmpty(agency.agents)}">
-                    <div th:text="${agent.user.lastName + ' ' + agent.user.firstName"></div>
+                    <div th:text="${agent.user.getLastName()} + ' ' + ${agent.user.getFirstName()}"></div>
                     <hr style="margin: 0;margin-top: 5px;">
                 </div>
             </td>

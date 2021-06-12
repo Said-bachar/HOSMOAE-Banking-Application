@@ -1,0 +1,43 @@
+.formcontainer{
+    border: solid 1px white;
+    width:600px;
+    margin: 90px auto;
+    padding:50px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.formdiv{
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 6px;
+}
+.formin{
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border:solid 1px #e85311;
+    border-radius: 10px;
+    background-color: rgba(232,83,17,0.4);
+    outline: none;
+    width:250px;
+    padding:3px;
+    text-align: center;
+}
+.savebtn{
+    background-color: rgba(232,83,17,0.4);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+    padding:4px;
+    width:120px;
+    border-radius: 20px;
+    border:solid 1px #e85311;
+    cursor: pointer;
+}
+.savebtn:hover{
+    background-color: rgba(232,83,17,0.4);
+}
+.savediv{
+    margin-top: 15px;
+    text-align: center;
+}
