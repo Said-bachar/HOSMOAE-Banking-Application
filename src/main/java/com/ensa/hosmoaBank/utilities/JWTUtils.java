@@ -22,7 +22,8 @@ import lombok.Data;
 public class JWTUtils {
     
 	@Value("${security.jwt.secret}")
-    private String secret = "HOSMOABANK_SECRET_KEY";
+	private String secret;
+    //private String secret = "HOSMOABANK_SECRET_KEY";
 
     @Autowired
     private UserRepository userRepository;
