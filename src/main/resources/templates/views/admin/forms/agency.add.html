@@ -3,20 +3,20 @@
 <head th:replace="views/admin/fragments :: head(title = 'Panneau d\'Agences')"></head>
 <body>
 <nav th:replace="views/admin/fragments :: navbar"></nav>
-<div th:replace="views/admin/fragments ::
+<!--<div th:replace="views/admin/fragments ::
     header(title = 'Ajouter une agence',
     description = 'Ici vous ajouter les agences de l\'application.')">
-</div>
+</div>-->
 <!--Main section-->
-<div class="ml-5 mr-5 mb-5">
+<div class="formcontainer">
     <form  th:object="${agency}" method="post" action="/admin/agencies/add">
-        <div class="form-group">
+        <div class="formdiv">
             <label for="agencyWording">Agency name</label>
-            <input type="text" class="form-control" id="agencyWording" th:field="*{agencyWording}" required>
+            <input type="text" class="formin" id="agencyWording" th:field="*{agencyWording}" required>
         </div>
-        <div class="form-group">
+        <div class="formdiv">
             <label for="city">Agency city</label>
-            <select class="form-control" id="city" th:field="*{city.id}">
+            <select class="formin" id="city" th:field="*{city.id}">
                 <option th:each="city: ${cities}" th:value="${city.id}" th:text="${city.name}">
                 </option>
             </select>
