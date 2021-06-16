@@ -27,7 +27,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-
 @Entity
 //@MappedSuperclass
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -39,7 +38,6 @@ public class User implements UserDetails{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	
 	private Long id;
 	
     

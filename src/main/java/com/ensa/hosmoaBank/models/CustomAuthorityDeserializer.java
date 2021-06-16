@@ -14,20 +14,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CustomAuthorityDeserializer extends JsonDeserializer{
 
-	@Override
-	public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-		ObjectMapper mapper = (ObjectMapper) p.getCodec();
-		JsonNode jsonNode = mapper.readTree(p);
-		List<SimpleGrantedAuthority> granteAuthorothies = new LinkedList<>();
-		
-		Iterator<JsonNode> elements = jsonNode.elements();
-		
-		while(elements.hasNext()) {
-			JsonNode next = elements.next();
-			JsonNode authority = next.get("authority");
-			granteAuthorothies.add(new SimpleGrantedAuthority(authority.asText()));
-		}
-		return granteAuthorothies;
-	}
+	 @Override
+	    public Object deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+	        ObjectMapper mapper = (ObjectMapper) jp.getCodec();
+	        JsonNode jsonNode = mapper.readTree(jp);
+	        List<SimpleGrantedAuthority> grantedAuthorities = new LinkedList<>();
+
+	        Iterator<JsonNode> elements = jsonNode.elements();
+	        while (elements.hasNext()) {
+	            JsonNode next = elements.next();
+	            JsonNode authority = next.get("authority");
+	            grantedAuthorities.add(new SimpleGrantedAuthority(authority.asText()));
+	        }
+	        return grantedAuthorities;
+	    }
+
 
 }
