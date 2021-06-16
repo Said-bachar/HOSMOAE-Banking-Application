@@ -1,13 +1,22 @@
 package com.ensa.hosmoaBank.models;
 
 
+import java.util.Collection;
+import java.util.Date;
+
 import javax.validation.constraints.*;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import com.ensa.hosmoaBank.enumerations.AccountStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferRequest {

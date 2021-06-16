@@ -9,14 +9,16 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.*;
 
-
+import com.ensa.hosmoaBank.enumerations.AccountStatus;
 import com.fasterxml.jackson.annotation.*;
 
 
 import lombok.*;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

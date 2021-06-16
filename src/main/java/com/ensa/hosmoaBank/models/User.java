@@ -13,9 +13,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ensa.hosmoaBank.enumerations.AccountStatus;
 import com.ensa.hosmoaBank.enumerations.Role;
 import com.ensa.hosmoaBank.utilities.VerificationTokenGenerator;
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.*;
 
@@ -23,7 +25,8 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @ToString
 @Entity
 //@MappedSuperclass
@@ -100,6 +103,7 @@ public class User implements UserDetails{
     
 	
 	@Override
+	@JsonDeserialize(using = CustomAuthorityDeserializer.class)
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
 		List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();

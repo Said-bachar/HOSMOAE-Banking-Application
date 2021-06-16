@@ -4,11 +4,17 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import com.ensa.hosmoaBank.enumerations.AccountStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @Entity
 public class City {

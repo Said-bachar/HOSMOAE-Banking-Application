@@ -23,6 +23,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder
 @Entity
 @SQLDelete(sql = "UPDATE account SET deleted=true WHERE id=?")
