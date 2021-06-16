@@ -16,7 +16,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @JsonPropertyOrder({ "user" })
 public class Agent {
     

@@ -26,7 +26,6 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 //@MappedSuperclass
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

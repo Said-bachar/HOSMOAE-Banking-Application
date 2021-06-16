@@ -104,6 +104,7 @@ public class GenericController {
      }
 
      final String token = jwtUtils.generateToken(authenticatedUser);
+     response.put("id",authenticatedUser.getId());
      response.put("token", token);
 
      return ResponseEntity.ok(response);
