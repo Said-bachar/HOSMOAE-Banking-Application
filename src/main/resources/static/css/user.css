@@ -1,0 +1,57 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-top:80px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+table {
+	width: 900px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    background: linear-gradient(to right, #44a7d5, #e85311);
+}
+
+th,td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+th {
+	text-align: left;
+}
+
+thead > th{
+		background-color: #55608f;
+}
+
+
+tbody > tr :hover{
+			background-color: rgba(255,255,255,0.3);
+	}
+tbody > td :hover {
+		content: "";
+		background-color: rgba(255,255,255,0.2);
+}
+button{
+    background-color: white;
+    padding:5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 7px;
+    border:solid 1px rgb(0,0,0);
+    width:70px;
+    cursor:pointer;
+}
+button:hover{
+    background-color: rgba(255,255,255,0.5);
+}
+.add{
+    width:200px;
+    font-size: 20px;
+}
+.add:hover{
+    background-color: rgba(232,83,17,0.4);
+}

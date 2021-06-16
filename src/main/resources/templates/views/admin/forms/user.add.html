@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')">
+</head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+<!--<div th:replace="views/admin/fragments ::
+    header(title = 'Ajouter un utilisateur',
+    description = 'Ici vous ajouter les administrateurs et les agents de l\'application.')">
+</div>-->
+<!--Main section-->
+<div class="formcontainer">
+    <form  th:object="${user}" method="post" action="/admin/users/add">
+        <div class="formdiv">
+            <label for="lastName">User last name</label>
+            <input type="text" class="formin" id="lastName" th:field="*{lastName}" required>
+        </div>
+        <div class="formdiv">
+            <label for="firstName">User first name</label>
+            <input type="text" class="formin" id="firstName" th:field="*{firstName}" required>
+        </div>
+        <div class="formdiv">
+            <label for="email">User email</label>
+            <input type="email" class="formin" id="email" th:field="*{email}" required>
+        </div>
+        <div class="formdiv">
+            <label for="role">User role</label>
+            <select class="formin" id="role"  th:field="*{role}">
+                <option value="ADMIN">Administrateur</option>
+                <option value="AGENT" th:if="${not #lists.isEmpty(agencies)}">Agent</option>
+            </select>
+        </div>
+        <div class="formdiv" id="agences-group" th:if="${not #lists.isEmpty(agencies)}">
+            <label for="agency">Assign to an agency</label>
+            <select class="formin" id="agency" th:field="*{agent.agency}">
+                <option th:each="agency: ${agencies}" th:value="${agency.id}" th:text="${agency.city.name + ' / ' + agency.agencyWording}"></option>
+            </select>
+        </div>
+        <div class="savediv"><button type="submit" class="savebtn">Save</button></div>
+    </form>
+</div>
+<!---->
+<div th:replace="views/admin/fragments :: scripts"></div>
+<script>
+    $(document).ready(function(){
+        $("#agences-group").hide();
+
+        $("select#role").change(function(){
+
+            var selected = $(this).children("option:selected").val();
+
+            console.log("You have selected the role - " + selected);
+            if (selected === 'AGENT') {
+                $("#agences-group").show();
+            } else
+                $("#agences-group").hide();
+        });
+
+    });
+</script>
+</body>
+</html>
