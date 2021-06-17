@@ -194,7 +194,6 @@ public class ClientPanelController {
 
     @GetMapping(value = "/accounts")// return listes des accounts d'un client
     public Collection<Account> getClientAccounts() {
-    	System.out.println("ok ok");
         return getClient().getAccounts();
     }
 
