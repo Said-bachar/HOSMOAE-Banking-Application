@@ -67,7 +67,7 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
             .allowCredentials(false)    //true!!
             .allowedHeaders("*")
             .allowedMethods("GET, POST, PATCH, PUT, DELETE, OPTIONS")
-            .allowedOrigins("*");
+            .allowedOriginPatterns("*");
     }
 
 //    @Override

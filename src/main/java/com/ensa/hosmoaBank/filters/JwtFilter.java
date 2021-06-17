@@ -60,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter{
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtUtils.getUsernameFromToken(jwtToken);
-                System.out.println(username);
+                
 
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
@@ -70,9 +70,18 @@ public class JwtFilter extends OncePerRequestFilter{
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
-        System.err.println(SecurityContextHolder.getContext().getAuthentication()+" => Token:"+jwtToken);
+        System.out.println("****************************************");
+        System.out.println(username);
+        System.out.println("****************************************");
+        System.err.println(SecurityContextHolder.getContext().getAuthentication());
+        System.out.println("****************************************"); 
+        System.out.println(" => Token:"+jwtToken);
+        System.out.println("****************************************"); 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             jwtUtils.setToken(jwtToken);
+            System.out.println("*****************OK********************"); 
+            System.out.println(jwtToken+"<=>"+jwtUtils.getToken());
+            System.out.println("****************************************"); 
             UserDetails userDetails = jwtUtils.getUserFromToken();
             
             if (jwtUtils.validateToken(jwtToken, userDetails)) {
