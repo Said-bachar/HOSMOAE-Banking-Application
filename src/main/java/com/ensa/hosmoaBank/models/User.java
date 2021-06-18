@@ -98,7 +98,7 @@ public class User implements UserDetails{
 	//  @JsonIgnore
 	@JsonIgnoreProperties({"user"})
 	private Client client;
-    
+   
 	
 	@Override
 	@JsonDeserialize(using = CustomAuthorityDeserializer.class)

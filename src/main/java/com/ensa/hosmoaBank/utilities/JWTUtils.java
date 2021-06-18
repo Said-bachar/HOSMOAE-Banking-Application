@@ -36,6 +36,8 @@ public class JWTUtils {
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
+    	this.setToken(token);
+    	
         return getClaimFromToken(token, Claims::getSubject);
     }
 

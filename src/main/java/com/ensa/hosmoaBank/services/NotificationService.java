@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
 import com.ensa.hosmoaBank.models.Notification;
+import com.ensa.hosmoaBank.repositories.ClientRepository;
 
 @Service
 @EnableScheduling
@@ -20,6 +21,9 @@ public class NotificationService {
 
     @Autowired
     private AuthService authService;
+    
+    @Autowired
+    private ClientRepository clientRepository;
 
     private List<Consumer<Notification>> listeners = new CopyOnWriteArrayList<>();
 
@@ -32,10 +36,16 @@ public class NotificationService {
     // function to push notification
     public void publish (Notification notification) {
         logger.info("PROCESS NOTIF : {}", notification);
-
         // make sure the notification is sent only to the according client.
-        if (notification.getClient().getId() == authService.getCurrentUser().getClient().getId())
-            listeners.forEach(c -> c.accept(notification));
+        if (notification.getClient().getId() == clientRepository.findByUser(authService.getCurrentUser()).get().getId()) {
+        	System.out.println(listeners);
+        	listeners.forEach(c -> {
+        		System.err.println(c);
+        		c.accept(notification);
+        		});
+        	
+        }
+            
 
     }
 

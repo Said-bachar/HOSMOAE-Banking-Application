@@ -122,6 +122,7 @@ public class ClientPanelController {
 
     @GetMapping(value = "/profil") // return Client by id
     public Client getClient() {
+    	System.err.println(clientRepository.findByUser(authService.getCurrentUser()));
         return clientRepository.findByUser(authService.getCurrentUser()).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Your account is not found.")
         );
@@ -371,6 +372,7 @@ public class ClientPanelController {
     //******** API Verify account number **************
     @PostMapping(value = "/verify_number")
     public ResponseEntity<String> verifyaccountNumber(@RequestBody AccountCredentialsRequest request) {
+    	System.err.println("==================>"+request);
         Account account = accountRepository.findByAccountNumberAndClient(request.getAccountNumber(), getClient()).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Le nº de account est erroné.")
         );
@@ -451,6 +453,7 @@ public class ClientPanelController {
         // we set notification reciever to current client.
         notification.setClient(getClient());
         notificationService.publish(notification);
+        System.err.println(notification);
         return "OK";
     }
 
