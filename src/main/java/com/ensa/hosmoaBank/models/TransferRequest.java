@@ -23,14 +23,14 @@ public class TransferRequest {
   String acountNumber;
   float amount; //montant
 
-  String notes;
+  //String notes;
 
 //  @NotNull(message = "Enter the account num of the des ")
   @CreditCardNumber
   String numeroCompteDest;
 
 //  @NotNull(message = "Enter the key secret of ur account")
-  @Pattern(regexp="[\\d]{8}", message = "Le code secret doit contenir exactement 8 chiffres")
+  //@Pattern(regexp="[\\d]{8}", message = "Le code secret doit contenir exactement 8 chiffres")
   String keySecret;
 
 

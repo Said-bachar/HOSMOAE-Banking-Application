@@ -63,7 +63,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -297,11 +296,23 @@ public class ClientPanelController {
             .account(account)
             .destAccount(accountDest)
             .montant(transferRequest.getAmount())
-            .notes(transferRequest.getNotes())
             .build()
         );
 
-        mailService.sendVirementCodeMail(getClient().getUser(), transfer);
+
+        // verifier le solde dispo
+        if (account.getAccountBalance() < transfer.getMontant())
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Your balance is insufficient to perform this operation.");
+
+        // echange de montant
+        account.setAccountBalance(account.getAccountBalance() - transfer.getMontant());
+        accountDest.setAccountBalance(accountDest.getAccountBalance() + transfer.getMontant());
+
+        transfer.setStatus(TransferStatus.CONFIRMED);
+        transferRepository.save(transfer);
+
+
+        //mailService.sendVirementCodeMail(getClient().getUser(), transfer);
 
         // Notification notification = Notification.builder()
         //     .client(account.getClient())
@@ -310,7 +321,8 @@ public class ClientPanelController {
 
         // notificationRepository.save(notification);
 
-        return new ResponseEntity<>(transfer, HttpStatus.CREATED);
+        //return new ResponseEntity<>(transfer, HttpStatus.CREATED);
+        return new ResponseEntity<>(transfer, HttpStatus.OK);
     }
 
     //    ****** API Client Virements *******

@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import com.ensa.hosmoaBank.enumerations.AccountStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -76,6 +77,7 @@ public class Account {
       private Collection<MultipleTransfer> multipletransfers; // Relation : * Account ---> 0..* MultipleTransfer
 
       @OneToMany(mappedBy = "account",fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
+      @JsonIgnoreProperties({"account"})
       private Collection<Recharge> recharges; 
 
 

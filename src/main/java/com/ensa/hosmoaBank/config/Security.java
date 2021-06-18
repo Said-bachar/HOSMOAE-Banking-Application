@@ -44,6 +44,10 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.formLogin().loginPage("/admin/login").defaultSuccessUrl("/admin", true); //true !!
 
+        /*httpSecurity
+        .csrf().disable()
+        .authorizeRequests()
+            .anyRequest().permitAll();*/
 //      Disable CSRF
         httpSecurity.cors().disable().csrf().disable()
 //      Allow certain routes

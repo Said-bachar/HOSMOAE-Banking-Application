@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +28,11 @@ public class MultipleTransferBeneficiary {
 	
 	@ManyToOne
     @JoinColumn(name = "id_beneficiary")
+	@JsonIgnoreProperties({"multipletransferbeneficiary"})
 	private Beneficiary beneficiary;
 	@ManyToOne
     @JoinColumn(name = "id_multipletransfer")
+	@JsonIgnoreProperties({"multipletransferbeneficiary"})
 	private MultipleTransfer multipletransfer;
 
 }

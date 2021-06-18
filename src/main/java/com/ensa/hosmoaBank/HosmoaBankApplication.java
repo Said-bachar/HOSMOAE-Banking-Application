@@ -103,6 +103,21 @@ public class HosmoaBankApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception{
+		
+		/*User aya = userRepo.save(User.builder()
+                .firstName("Aya")
+                .lastName("Ettahri")
+                .password(encoder.encode("aya"))
+                .role(Role.CLIENT)
+                .emailConfirmed(true)
+                .email("aya@gmail.com")
+                .city("MARRAKECH")
+                .adress("ENSA RUE N 6 ")
+                .phoneNumber("+212666666666")
+                .build());
+
+
+        Client client = clientRepository.save(Client.builder().user(aya).build());*/
 		// TODO Auto-generated method stub
 		
 //		Collection<Beneficiary> beneficiaries=new ArrayList<>();
