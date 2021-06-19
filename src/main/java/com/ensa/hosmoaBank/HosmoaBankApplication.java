@@ -99,14 +99,14 @@ public class HosmoaBankApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception{
 		// TODO Auto-generated method stub
 		
-		Collection<Beneficiary> beneficiaries=new ArrayList<>();
-		
-		Collection<MultipleTransferBeneficiary> multipletransferbeneficiaries = multipletransferRepository.findAll().get(0).getMultipletransferbeneficiary();
-	    
-	    for(MultipleTransferBeneficiary m:multipletransferbeneficiaries) {
-	    	beneficiaries.add(m.getBeneficiary());
-	    	System.out.println(m.getBeneficiary().getFirstName());
-	    }
+//		Collection<Beneficiary> beneficiaries=new ArrayList<>();
+//		
+//		Collection<MultipleTransferBeneficiary> multipletransferbeneficiaries = multipletransferRepository.findAll().get(0).getMultipletransferbeneficiary();
+//	    
+//	    for(MultipleTransferBeneficiary m:multipletransferbeneficiaries) {
+//	    	beneficiaries.add(m.getBeneficiary());
+//	    	System.out.println(m.getBeneficiary().getFirstName());
+//	    }
 		/*City city1 = cityRepo.save(City.builder().name("Marrakech").build());
 		City city2 = cityRepo.save(City.builder().name("Kelaa des sraghna").build());
 		
