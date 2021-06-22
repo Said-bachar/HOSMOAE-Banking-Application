@@ -199,16 +199,16 @@ public class ClientPanelController {
 
     //    ** API to change code secret ***
     @PostMapping("/accounts/management/changer_code")
-    public Account changeCodeSecret(@RequestBody @Valid CodeChangeRequest request) {
+    public Account changeKeySecret(@RequestBody @Valid CodeChangeRequest request) {
         Account account = accountRepository.findByAccountNumberAndClient(request.getAccountNumber(), getClient()).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Account is not found")
         );
 
         if (!account.getKeySecret().equals(request.getKeySecret()))
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Old password is incorrect.");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Old key is incorrect.");
 
         if (!request.getNewKeySecret().equals(request.getNewKeySecretConf()))
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Two passwors are not the same.");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Two keys are not the same.");
 
         account.setKeySecret(request.getNewKeySecret());
         return accountRepository.save(account);
