@@ -32,6 +32,6 @@ public class Beneficiary {
 	private String accountNumber;
 	
 	@OneToMany(mappedBy = "beneficiary", fetch = FetchType.LAZY,  cascade={CascadeType.REMOVE})
-    @JsonIgnoreProperties("beneficiary")
+	@JsonIgnoreProperties({"multipletransfer", "beneficiary"})
     private Collection<MultipleTransferBeneficiary> multipletransferbeneficiary;
 }

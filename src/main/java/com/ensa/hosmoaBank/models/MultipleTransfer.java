@@ -54,7 +54,7 @@ public class MultipleTransfer{
 	    private Account account;
 	
 	@OneToMany(mappedBy = "multipletransfer", fetch = FetchType.EAGER,  cascade={CascadeType.REMOVE})
-    @JsonIgnoreProperties("multipletransfer")
+	@JsonIgnoreProperties({"multipletransfer", "beneficiary"})
     private Collection<MultipleTransferBeneficiary> multipletransferbeneficiary;
 	
 

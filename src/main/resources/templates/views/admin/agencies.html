@@ -3,16 +3,16 @@
 <head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
 <body>
 <nav th:replace="views/admin/fragments :: navbar"></nav>
-<div th:replace="views/admin/fragments ::
+<!--<div th:replace="views/admin/fragments ::
     header(title = 'Gestion d\'agences',
     description = 'Ici vous gérer  les agences de l\'application.')">
-</div>
+</div>-->
 <!--Main section-->
-<div class="ml-5 mr-5 mb-5">
-    <a th:href="@{/admin/agencies/add/}" class="ml-auto mb-2">
-        <button type="button" class="btn mb-3 btn-primary" style="display: block;margin-left: auto;">Add an agnecy</button>
+<div class="formcontainer">
+    <a th:href="@{/admin/agencies/add/}" class="adduser">
+        <button type="button" class="add" style="display: block;margin-left: auto;">Add an agency</button>
     </a>
-    <p th:if="${ #lists.isEmpty(agences)}">No agncy added.</p>
+    <p th:if="${ #lists.isEmpty(agences)}">No agency added.</p>
     <table class="table" th:if="${not #lists.isEmpty(agencies)}">
         <thead>
         <tr>
@@ -39,11 +39,11 @@
             <td th:text="${agency.creationDate}">30 Mars 2020</td>
             <td>
                 <a th:href="@{'agencies/update/' + ${agency.id}}">
-                    <button class="btn btn-outline-primary mr-2 btn-sm">Update</button>
+                    <button class="update">Update</button>
                 </a>
                 <form method="post" style="display: inline-block" th:action="${'/admin/agencies/delete/' + agency.id}">
                     <input type="hidden" name="_method" value="DELETE" id="">
-                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                    <button class="delete">Delete</button>
                 </form>
             </td>
         </tr>
