@@ -6,10 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +24,6 @@ public class MultipleTransferRequest {
 	  @Pattern(regexp="[\\d]{8}", message = "Le code secret doit contenir exactement 8 chiffres")
 	  String secretKey;
 	  
-	  Collection<MultipleTransferBeneficiary> multipletransfersbeneficiaries;
+	  Collection<MultipleTransferBeneficiaryRequest> multipletransfersbeneficiaries;
 
 }

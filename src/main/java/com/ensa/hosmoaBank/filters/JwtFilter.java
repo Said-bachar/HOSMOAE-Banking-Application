@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import com.ensa.hosmoaBank.models.User;
 import com.ensa.hosmoaBank.repositories.UserRepository;
 import com.ensa.hosmoaBank.services.AuthService;
 import com.ensa.hosmoaBank.utilities.JWTUtils;
@@ -77,6 +76,7 @@ public class JwtFilter extends OncePerRequestFilter{
         System.out.println("****************************************"); 
         System.out.println(" => Token:"+jwtToken);
         System.out.println("****************************************"); 
+        
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             jwtUtils.setToken(jwtToken);
             System.out.println("*****************OK********************"); 

@@ -6,12 +6,14 @@ import com.ensa.hosmoaBank.enumerations.TransferStatus;
 import com.ensa.hosmoaBank.models.Account;
 import com.ensa.hosmoaBank.models.AccountCredentialsRequest;
 import com.ensa.hosmoaBank.models.Beneficiary;
+import com.ensa.hosmoaBank.models.BeneficiaryRequest;
 import com.ensa.hosmoaBank.models.ChangePasswordRequest;
 import com.ensa.hosmoaBank.models.Client;
 import com.ensa.hosmoaBank.models.CodeChangeRequest;
 import com.ensa.hosmoaBank.models.CodeValidationRequest;
 import com.ensa.hosmoaBank.models.MultipleTransfer;
 import com.ensa.hosmoaBank.models.MultipleTransferBeneficiary;
+import com.ensa.hosmoaBank.models.MultipleTransferBeneficiaryRequest;
 import com.ensa.hosmoaBank.models.MultipleTransferRequest;
 import com.ensa.hosmoaBank.models.Notification;
 import com.ensa.hosmoaBank.models.Recharge;
@@ -20,7 +22,9 @@ import com.ensa.hosmoaBank.models.Transfer;
 import com.ensa.hosmoaBank.models.TransferRequest;
 import com.ensa.hosmoaBank.models.User;
 import com.ensa.hosmoaBank.repositories.AccountRepository;
+import com.ensa.hosmoaBank.repositories.BeneficiaryRepository;
 import com.ensa.hosmoaBank.repositories.ClientRepository;
+import com.ensa.hosmoaBank.repositories.MultipleTransferBeneficiaryRepository;
 import com.ensa.hosmoaBank.repositories.MultipleTransferRepository;
 import com.ensa.hosmoaBank.repositories.NotificationRepository;
 import com.ensa.hosmoaBank.repositories.RechargeRepositroy;
@@ -112,7 +116,13 @@ public class ClientPanelController {
     private PasswordEncoder encoder;
     
     @Autowired
+    private BeneficiaryRepository beneficiaryRepository;
+    
+    @Autowired
     private MultipleTransferRepository multipletransferRepository;
+    
+    @Autowired
+    private MultipleTransferBeneficiaryRepository multipleTransferBeneficiaryRepository;
 
     private final GoogleAuthenticator gAuth;
 
@@ -610,9 +620,25 @@ public class ClientPanelController {
   }
   
   	//***************** API to add Beneficiary ********************
-
+  @PostMapping(value="/addBeneficiary")
+  public ResponseEntity<String> addBeneficiary(@RequestBody BeneficiaryRequest beneficiaryRequest){
+	  Beneficiary newBeneficiary = new Beneficiary();
+	  this.getClient().getAccounts().forEach(account->{
+		  if(account.getAccountNumber().equals(beneficiaryRequest.getAccountNumber())) {
+			  throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Account is invalid.");
+		  }
+	  });
+	  newBeneficiary.setAccountNumber(beneficiaryRequest.getAccountNumber());
+	  newBeneficiary.setFirstName(beneficiaryRequest.getFirstName());
+	  newBeneficiary.setLastName(beneficiaryRequest.getLastName());
+	  this.beneficiaryRepository.save(newBeneficiary);
+	  
+	  return ResponseEntity.ok("Beneficiary is created.");
+  }
+  
+  //***************** API to add Beneficiary ********************
 	@PostMapping(value = "/multipletransfers/addBeneficiary")
-	public String addBeneficiary(@RequestBody MultipleTransferBeneficiary multipletransferbeneficiary){
+	public String addMultipleBeneficiary(@RequestBody MultipleTransferBeneficiary multipletransferbeneficiary){
 		return "redirect:/client/api/multipletransfer/create";
 	}
 	
@@ -628,9 +654,9 @@ public class ClientPanelController {
 
         verifyaccountStatus(account);
 
-        Collection<MultipleTransferBeneficiary> mbeneficiaries=multipletransferRequest.getMultipletransfersbeneficiaries();
+        Collection<MultipleTransferBeneficiaryRequest> mbeneficiaries=multipletransferRequest.getMultipletransfersbeneficiaries();
         float globalAmount=0;
-        for(MultipleTransferBeneficiary m:mbeneficiaries) {
+        for(MultipleTransferBeneficiaryRequest m:mbeneficiaries) {
         	globalAmount+=m.getAmount();
         }
         if (account.getAccountBalance() < globalAmount)
@@ -638,22 +664,42 @@ public class ClientPanelController {
 
 
         account.setLastOperation(new Date());
-
+//        Collection<Beneficiary> beneficiaries;
+//        multipletransferRequest.getMultipletransfersbeneficiaries().forEach(ml->{
+//        	Beneficiary b =this.beneficiaryRepository.findById(ml.getId_beneficiary()).get();
+//        	beneficiaries.add(b);
+//        });
+//        System.out.println(multipletransferRequest.getMultipletransfersbeneficiaries());
+        Collection<MultipleTransferBeneficiary> multipletransferBeneficiary=new ArrayList<MultipleTransferBeneficiary>();
+        multipletransferRequest.getMultipletransfersbeneficiaries().forEach(m->{
+        	 MultipleTransferBeneficiary mb = new MultipleTransferBeneficiary();
+        	 mb.setAmount(m.getAmount());
+        	 mb.setBeneficiary(beneficiaryRepository.findById(m.getId_beneficiary()).get());
+        	 multipletransferBeneficiary.add(mb);
+        	 
+        });
+        
         MultipleTransfer multipletransfer = multipletransferRepository.save(MultipleTransfer.builder()
             .account(account)
-            .multipletransferbeneficiary(multipletransferRequest.getMultipletransfersbeneficiaries())
+            .multipletransferbeneficiary(multipletransferBeneficiary)
             .build()
         );
+        multipletransferBeneficiary.forEach(m->{
+        	m.setMultipletransfer(multipletransfer);
+        	multipleTransferBeneficiaryRepository.save(m);
+    
+        });
+        	
 
-        mailService.sendMultipleTransferCodeMail(getClient().getUser(), multipletransfer);
+//        mailService.sendMultipleTransferCodeMail(getClient().getUser(), multipletransfer);
 
-        return new ResponseEntity<>(multipletransfer, HttpStatus.CREATED);
+        return new ResponseEntity<>(multipletransfer,HttpStatus.CREATED);
     }
 	
 	//***************** API to confirm Multiple Transfer ********************
 	
 	@PostMapping(value = "/multipletransfers/{id}/confirm")
-    public ResponseEntity<String> MultipleTransferConfirmation(@PathVariable(value = "id") Long id, @RequestBody HashMap<String, Integer> request) {
+    public ResponseEntity<String> MultipleTransferConfirmation(@PathVariable(value = "id") Long id, @RequestBody HashMap<String, String> request) {
         MultipleTransfer multipletransfer = multipletransferRepository.findByIdAndAndAccount_Client(id, getClient()).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfer with id = " + id + " is not found .")
         );
@@ -664,8 +710,8 @@ public class ClientPanelController {
         }
 
         // verifier le code de verification
-        int codeVerification = Math.toIntExact(request.get("codeVerification"));
-        if (codeVerification != multipletransfer.getCodeVerification())
+        String keySecret =request.get("keySecret");
+        if (keySecret.equals(authService.getCurrentUser().getSecretKey()))
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Code is invalid.");
 
 
