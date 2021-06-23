@@ -158,12 +158,12 @@ public class AdminPanelController {
    	
     	if(user != null) {
     		
-    		user.setPassword(password);
+    		user.setPassword(encoder.encode(password));
     		userRepository.save(user);
-    		return ADMIN_VIEWS_PATH + "";
+    		return "views/admin/login2";
     	} else {
     		model.addAttribute("code", "le lien n'est pas valide");
-    		return "views//errors/any";
+    		return "views/errors/any";
     	}
   
     }
