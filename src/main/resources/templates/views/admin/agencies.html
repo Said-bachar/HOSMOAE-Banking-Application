@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+<!--<div th:replace="views/admin/fragments ::
+    header(title = 'Gestion d\'agences',
+    description = 'Ici vous gérer  les agences de l\'application.')">
+</div>-->
+<!--Main section-->
+<div class="formcontainer">
+    <a th:href="@{/admin/agencies/add/}" class="adduser">
+        <button type="button" class="add" style="display: block;margin-left: auto;">Add an agency</button>
+    </a>
+    <p th:if="${ #lists.isEmpty(agences)}">No agency added.</p>
+    <table class="table" th:if="${not #lists.isEmpty(agencies)}">
+        <thead>
+        <tr>
+            <th scope="col">Agency name</th>
+            <th scope="col">city</th>
+            <th scope="col">list of agents</th>
+            <th scope="col">Date added</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  th:each="agency : ${agencies}">
+            <th scope="row" >
+                <div th:text="${agency.agencyWording}"></div>
+            </th>
+            <td th:text="${agency.city.name}">Kech</td>
+            <td >
+                <div th:if="${ #lists.isEmpty(agency.agents)}">No agent assigned.</div>
+                <div th:each="agent: ${agency.agents}"  th:if="${not #lists.isEmpty(agency.agents)}">
+                    <div th:text="${agent.user.getLastName()} + ' ' + ${agent.user.getFirstName()}"></div>
+                    <hr style="margin: 0;margin-top: 5px;">
+                </div>
+            </td>
+            <td th:text="${agency.creationDate}">30 Mars 2020</td>
+            <td>
+                <a th:href="@{'agencies/update/' + ${agency.id}}">
+                    <button class="update">Update</button>
+                </a>
+                <form method="post" style="display: inline-block" th:action="${'/admin/agencies/delete/' + agency.id}">
+                    <input type="hidden" name="_method" value="DELETE" id="">
+                    <button class="delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!---->
+<div th:replace="views/admin/fragments :: scripts"></div>
+</body>
+</html>

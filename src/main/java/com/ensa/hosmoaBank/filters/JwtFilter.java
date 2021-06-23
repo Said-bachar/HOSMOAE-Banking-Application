@@ -1,0 +1,100 @@
+package com.ensa.hosmoaBank.filters;
+
+import javax.servlet.http.HttpServletRequest;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import com.ensa.hosmoaBank.models.User;
+import com.ensa.hosmoaBank.repositories.UserRepository;
+import com.ensa.hosmoaBank.services.AuthService;
+import com.ensa.hosmoaBank.utilities.JWTUtils;
+
+
+
+@Component
+@Log4j2
+public class JwtFilter extends OncePerRequestFilter{
+	@Autowired
+    private AuthService authService;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private String TOKEN_HEADER = "Authorization";
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        
+    	//Get authorization header and validate
+        final String requestTokenHeader = httpServletRequest.getHeader(TOKEN_HEADER);
+//        System.out.println(httpServletRequest.getParameter("username"));
+//        System.out.println(httpServletRequest.getRequestURI());
+//        User user = userRepository.findByEmail(httpServletRequest.getParameter("username"));
+//        System.out.println(user.getRole());
+
+
+        String username = null;
+        String jwtToken = null;
+        
+        System.out.println("Token = "+requestTokenHeader);
+
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+            jwtToken = requestTokenHeader.substring(7);
+            try {
+                username = jwtUtils.getUsernameFromToken(jwtToken);
+                
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Unable to get JWT Token");
+            } catch (ExpiredJwtException e) {
+                System.out.println("JWT Token has expired");
+            }
+        } else {
+            logger.warn("JWT Token does not begin with Bearer String");
+        }
+        System.out.println("****************************************");
+        System.out.println(username);
+        System.out.println("****************************************");
+        System.err.println(SecurityContextHolder.getContext().getAuthentication());
+        System.out.println("****************************************"); 
+        System.out.println(" => Token:"+jwtToken);
+        System.out.println("****************************************"); 
+        
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            jwtUtils.setToken(jwtToken);
+            System.out.println("*****************OK********************"); 
+            System.out.println(jwtToken+"<=>"+jwtUtils.getToken());
+            System.out.println("****************************************"); 
+            UserDetails userDetails = jwtUtils.getUserFromToken();
+            
+            if (jwtUtils.validateToken(jwtToken, userDetails)) {
+                log.info("Extracted user from claims : {}", userDetails.toString());
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
+        }
+
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+}

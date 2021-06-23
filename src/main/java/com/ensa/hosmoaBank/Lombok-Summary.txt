@@ -1,0 +1,19 @@
+@Data//Generate get and set (combination of annotations, including @Setter
+、@Getter、@RequiredArgsConstructor、
+@EqualsAndHashCodeEtc.)       
+ In addition, equals, canEqual, hashCode, toString methods are provided
+@ToString//Generate toString method
+@NoArgsConstructor//Generate no parameter structure
+@AllArgsConstructor//Generate parameterized structure
+@Accessors(chain = true)//Continuous operation object
+
+@Cleanup :  Can close the stream
+@Builder  : The annotated class plus a constructor mode
+@Synchronized  : Add a synchronization lock
+@SneakyThrows :  Equivalent totry/catch  Catch exception
+@NonNull :  If you add this annotation to the parameter 
+ If the parameter is null, a null pointer exception will be thrown
+@Value :  Annotation and@DataSimilar, the difference is that it will
+ All member variables are defined by default asprivate finalRetouch,
+ And will not generate a set method.
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')">
+</head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+<!--<div th:replace="views/admin/fragments ::
+    header(title = 'Gestion d\'utilisateurs',
+    description = 'Ici vous gérer les administrateurs et les agents de l\'application.')">
+</div>-->
+<!--Main section-->
+<div class="container">
+   <a th:href="@{/admin/users/add/}" class="adduser">
+        <button type="button" class="add">Add a user</button>
+    </a>&nbsp;&nbsp;
+    <p th:if="${ #lists.isEmpty(users)}">No user is registered.</p>
+    <table class="table" th:if="${not #lists.isEmpty(users)}">
+        <thead>
+        <tr>
+            <th scope="col">First and last name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Date added</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  th:each="user : ${users}">
+            <th scope="row" >
+                <div th:text="${user.getLastName() + ' ' +  user.getFirstName()}"></div>
+                <p  th:if="${user.role.name().equals('AGENT')}" style="opacity: 0.65;font-size: 12px;" th:text="${user.agent.agency.city.name + ' / ' + user.agent.agency.agencyWording}"></p>
+            </th>
+            <td th:text="${user.email}">o@g.c</td>
+            <td th:text="${user.role}">AGENT</td>
+            <td th:text="${user.dateOfCreation}">20 Mars 2020</td>
+            <td>
+                <a th:href="@{'users/update/' + ${user.id}}">
+                    <button class="update">update</button>
+                </a>
+                <form method="post" style="display: inline-block" th:action="${'/admin/users/delete/' + user.id}">
+                    <input type="hidden" name="_method" value="DELETE" id="">
+                    <button class="delete">delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!---->
+<div th:replace="views/admin/fragments :: scripts"></div>
+</body>
+</html>

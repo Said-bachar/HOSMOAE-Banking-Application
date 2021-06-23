@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+<!--<div th:replace="views/admin/fragments ::
+    header(title = 'Ajouter une agence ',
+    description = 'Ici vous ajouter les agences de l\'application.')">
+</div>-->
+<!--Main section-->
+<div class="formcontainer">
+    <form  th:object="${agency}" method="post" action="/admin/agencies/update/" th:action="${'/admin/agencies/update/' + agency.id}">
+        <div class="formdiv">
+            <label for="libelleAgence">Agency name</label>
+            <input type="text" class="form-control" id="agencyWording" th:field="*{agencyWording}" required>
+        </div>
+        <div class="formdiv">
+            <label for="city">Agency city</label>
+            <select class="formin" id="city" th:field="*{city.id}">
+                <option th:each="city: ${cities}" th:value="${city.id}" th:text="${city.name}">
+                </option>
+            </select>
+        </div>
+
+
+        <div class="savediv"><button type="submit" class="savebtn">Save</button></div>
+    </form>
+</div>
+<!---->
+<div th:replace="views/admin/fragments :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/login2.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>HosmoaBank</title>
+</head>
+
+<body>
+  <div class="main">
+    <p class="sign" align="center">Login <span class="sign2">Page</span></p>
+    <form class="form1" th:action="@{/admin/login}" method="post">
+      <input class="un " type="text" align="center" placeholder="Your login ..." name="username">
+      <input class="pass" type="password" align="center" placeholder="Password" name="password">
+      <!--<a class="submit" align="center">Connect</a>-->
+      <button type="submit" align="center"class="submit">Connect</button>
+      
+      <div align="center" th:if="${param.error}">
+          <p class="red">Incorrect Login or Password!</p>
+      </div>
+      <div align="center" style="margin-top: 30px;" th:if="${param.logout}">
+         <p class="green">You have been logged out</p>
+      </div>
+      <p class="forgot" align="center"><a href="#">Forgot Password?</p>         
+ </div>
+     
+</body>
+
+</html>

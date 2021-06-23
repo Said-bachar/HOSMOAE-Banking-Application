@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+<!--<div th:replace="views/admin/fragments ::
+    header(title = 'Ajouter un utilisateur',
+    description = 'Ici vous ajouter les administrateurs et les agents de l\'application.')">
+</div>-->
+<!--Main section-->
+<div class="formcontainer">
+    <form  th:object="${user}" method="post" action="/admin/users/update/" th:action="${'/admin/users/update/' + user.id}">
+        <div class="formdiv">
+            <label for="lastName">Last name</label>
+            <input type="text" class="formin" id="lastName" th:field="*{lastName}" required>
+        </div>
+        <div class="formdiv">
+            <label for="firstName">First name</label>
+            <input type="text" class="formin" id="firstName" th:field="*{firstName}" required>
+        </div>
+        <div class="formdiv">
+            <label for="email">User email</label>
+            <input type="email" class="formin" id="email" th:field="*{email}" required>
+        </div>
+         <div class="savediv"><button type="submit" class="savebtn">Save</button></div>
+    </form>
+</div>
+<!---->
+<div th:replace="views/admin/fragments :: scripts"></div>
+</body>
+</html>
