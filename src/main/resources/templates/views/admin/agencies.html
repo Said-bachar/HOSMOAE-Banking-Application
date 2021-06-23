@@ -8,11 +8,11 @@
     description = 'Ici vous gérer  les agences de l\'application.')">
 </div>-->
 <!--Main section-->
-<div class="formcontainer">
+<div class="container">
     <a th:href="@{/admin/agencies/add/}" class="adduser">
-        <button type="button" class="add" style="display: block;margin-left: auto;">Add an agency</button>
-    </a>
-    <p th:if="${ #lists.isEmpty(agences)}">No agency added.</p>
+        <button type="button" class="add" >Add an agency</button>
+    </a>&nbsp;&nbsp;
+    <!--<p th:if="${ #lists.isEmpty(agences)}">No agency added.</p>-->
     <table class="table" th:if="${not #lists.isEmpty(agencies)}">
         <thead>
         <tr>

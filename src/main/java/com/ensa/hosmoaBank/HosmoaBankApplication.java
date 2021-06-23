@@ -104,6 +104,20 @@ public class HosmoaBankApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception{
 		
+		/*User user1 = userRepo.save(User.builder()
+			    .firstName("Amina")
+			    .lastName("Hnouna")
+			    .email("amina@gmail.com")
+			    .role(Role.ADMIN)
+			    .password(encoder.encode("amina"))
+		        .emailConfirmed(true)
+			    .phoneNumber("+212762797606")
+			    .adress("Rue Sidi abad 2")
+			    .city("Marrakech")
+			    .build());
+    
+	Admin admin = adminRepo.save(Admin.builder().user(user1).build());*/
+		
 		/*User aya = userRepo.save(User.builder()
                 .firstName("Aya")
                 .lastName("Ettahri")

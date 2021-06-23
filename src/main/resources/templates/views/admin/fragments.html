@@ -13,7 +13,7 @@
     	<img src="/images/HosmoaBank.png" id="logo" />
 	    <ul>
 	        <li>
-	            <a href="#">
+	            <a href="/admin">
 	                <div class="icon">
 	                    <i class="fa fa-home" aria-hidden="true"><img src="/images/homeblack.png" /></i>
 	                    <i class="fa fa-home" aria-hidden="true"><img src="/images/homeblack.png" /></i>
@@ -43,6 +43,16 @@
 	            </a>
 	        </li>
 	        <li>
+	            <a href="/admin/config">
+	                <!-- this anchor text for link your About page to another page -->
+	                <div class="icon">
+	                    <i class="fa fa-file" aria-hidden="true"><img src="/images/config.png" /></i>
+	                    <i class="fa fa-file" aria-hidden="true"><img src="/images/config.png" /></i>		
+	                </div>
+	                <div class="name"><span data-text="Config">Config</span></div>
+	            </a>
+	        </li>
+	        <li>
 	            <a href="/logout">
 	                <div class="icon">
 	                    <i class="fa fa-picture-o" aria-hidden="true"><img src="/images/logout.png" /></i>	
@@ -61,6 +71,23 @@
 	    <script src="/js/jquery-3.4.1.slim.min.js?v=prod" ></script>
 	    <script src="/js/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	    <script src="/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	    <script type="text/javascript">
+		function checkPassword(form) {
+                password1 = form.newPassword.value;
+                password2 = form.newPasswordConfirm.value;
+                if (password1 == '')
+                    alert ("Please enter Password");
+                else if (password2 == '')
+                    alert ("Please enter confirm password");   
+                else if (password1 != password2) {
+                    alert ("\nPassword did not match: Please try again...")
+                    return false;
+                else{
+                    alert("Password Match!")
+                    return true;
+                }
+            }
+		</script>
 	</div>
 </body>
 </html>

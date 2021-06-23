@@ -1,31 +1,42 @@
 package com.ensa.hosmoaBank.controllers.admin;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ensa.hosmoaBank.models.Admin;
 import com.ensa.hosmoaBank.models.Agency;
 import com.ensa.hosmoaBank.models.Agent;
+import com.ensa.hosmoaBank.models.ConfirmationToken;
 import com.ensa.hosmoaBank.models.User;
 import com.ensa.hosmoaBank.repositories.AdminRepository;
 import com.ensa.hosmoaBank.repositories.AgencyRepository;
 import com.ensa.hosmoaBank.repositories.AgentRepository;
 import com.ensa.hosmoaBank.repositories.CityRepository;
 import com.ensa.hosmoaBank.repositories.ClientRepository;
+import com.ensa.hosmoaBank.repositories.ConfirmationTokenRepository;
 import com.ensa.hosmoaBank.repositories.UserRepository;
 import com.ensa.hosmoaBank.services.MailService;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,6 +44,9 @@ public class AdminPanelController {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     private AdminRepository adminRepository;
@@ -51,6 +65,12 @@ public class AdminPanelController {
 
     @Autowired
     private MailService mailService;
+    
+    @Autowired
+    ConfirmationTokenRepository confirmationTokenRepository;
+    
+    @Autowired
+    private JavaMailSender mailSender;
 
     Logger logger = LoggerFactory.getLogger(AdminPanelController.class);
 
@@ -77,6 +97,77 @@ public class AdminPanelController {
     public String index(Model model) {
         return ADMIN_VIEWS_PATH + "index";
     }
+    
+    
+    @GetMapping("forgotPassword")
+    public String forgotPasssword() {
+    	
+    	return ADMIN_VIEWS_PATH + "forgotPassword";
+    }
+    
+    @PostMapping("forgotPassword")
+    public String resetPassswordRequest(Model model,@RequestParam("email") String email) {
+    	User user = userRepository.findByEmail(email);
+    	
+   	
+    	if(user != null) {
+    		
+    		 System.out.println("useeeeeeeeeeeeeeeeeeeeeeeer "+user);
+    		
+    		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+    		confirmationTokenRepository.save(confirmationToken);
+    		SimpleMailMessage mailMessage = new SimpleMailMessage();
+    		
+    		mailMessage.setTo(user.getEmail());
+    		mailMessage.setSubject("comlete passwordreset");
+    		mailMessage.setText("To complete the password reset process, please click here: "
+    	              + "http://localhost:8085/admin/confirmReset?token="+confirmationToken.getConfirmationToken());
+
+    		mailSender.send(mailMessage);
+    		model.addAttribute("code", "Request to reset password received. Check your inbox for the reset link.");
+    		return ADMIN_VIEWS_PATH + "successForgotPassword";
+    	} else {
+    		model.addAttribute("code", "email non existant");
+    		return "views//errors/any";
+    	}
+  
+    }
+    
+    @GetMapping("confirmReset")
+    public String  validateResetToken(Model model, @RequestParam("token")String confirmationToken) {
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+
+        if (token != null) {
+            User user = userRepository.findByEmail(token.getUser().getEmail());
+     
+         
+            model.addAttribute("email", user.getEmail());
+            return ADMIN_VIEWS_PATH + "resetPassword";
+    	} else {
+      
+    		model.addAttribute("code","Le lien n'est pas valide.");
+    		return "views/errors/any";
+        }
+    }
+    
+    
+    @PostMapping("resetPassword")
+    public String resetPasssword(Model model,@RequestParam("email") String email, @RequestParam("password") String password) {
+    	User user = userRepository.findByEmail(email);
+    	
+   	
+    	if(user != null) {
+    		
+    		user.setPassword(password);
+    		userRepository.save(user);
+    		return ADMIN_VIEWS_PATH + "";
+    	} else {
+    		model.addAttribute("code", "le lien n'est pas valide");
+    		return "views//errors/any";
+    	}
+  
+    }
+    
 
     @GetMapping("users")
     public String usersView(Model model) {
@@ -118,6 +209,41 @@ public class AdminPanelController {
 
 
         return "redirect:/admin/users";
+    }
+    
+    @GetMapping("config")
+    public String configView(Model model) {
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	String email=null;
+    	if (principal instanceof UserDetails) {
+    	  email = ((UserDetails)principal).getUsername();
+    	} 
+    	else {
+    	  email = principal.toString();
+    	}
+    	model.addAttribute("email",email);
+        return ADMIN_VIEWS_PATH + "config";
+    }
+    
+    @GetMapping("config/change_password")
+    public String changePasswordView(Model model) {
+        return ADMIN_VIEWS_PATH + "changePswd";
+    }
+    
+    @PostMapping("config/change_password")
+    public String changePassword(@RequestParam(value = "oldPassword") String oldPassword,@RequestParam(value = "newPassword") String newPassword) {
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	String username=null;
+    	if (principal instanceof UserDetails) {
+    	  username = ((UserDetails)principal).getUsername();
+    	} 
+    	else {
+    	  username = principal.toString();
+    	}
+        User userToUpdate = userRepository.findByEmail(username);
+        userToUpdate.setPassword(encoder.encode(newPassword));
+        userRepository.save(userToUpdate);
+        return "redirect:/admin/config";
     }
 
     @GetMapping("users/update/{id}")

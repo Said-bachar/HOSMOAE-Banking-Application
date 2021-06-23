@@ -3,6 +3,7 @@ package com.ensa.hosmoaBank.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,13 +52,16 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
 //      Disable CSRF
         httpSecurity.cors().disable().csrf().disable()
 //      Allow certain routes
-                .authorizeRequests().antMatchers("/validate/key","/api/generate/**","/admin/login","/verify", "/api/auth/**", "/api/auth/agent", "/api/forgot_password", "/confirm", "/set_password","/js/**","/css/**").permitAll().
+                .authorizeRequests().
+                antMatchers("/validate/key","/api/generate/**","/admin/login","/verify", "/api/auth/**", "/api/auth/agent", "/api/forgot_password", "/confirm", "/set_password","/js/**","/css/**"
+                ,"/admin/forgotPassword","/admin/confirmReset","/admin/resetPassword").permitAll().
                 and().authorizeRequests().antMatchers("/admin/**").hasRole(Role.ADMIN.name()). // just for now
                 and().authorizeRequests().antMatchers("/agent/**").hasRole(Role.AGENT.name()).
                 and().authorizeRequests().antMatchers("/client/**").hasRole(Role.CLIENT.name()).
                 anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+        
         
         // Add JWT token filter
         

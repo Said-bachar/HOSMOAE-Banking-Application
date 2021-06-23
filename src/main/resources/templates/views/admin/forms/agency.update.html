@@ -12,7 +12,7 @@
     <form  th:object="${agency}" method="post" action="/admin/agencies/update/" th:action="${'/admin/agencies/update/' + agency.id}">
         <div class="formdiv">
             <label for="libelleAgence">Agency name</label>
-            <input type="text" class="form-control" id="agencyWording" th:field="*{agencyWording}" required>
+            <input class="formin" type="text"  id="agencyWording" th:field="*{agencyWording}" required>
         </div>
         <div class="formdiv">
             <label for="city">Agency city</label>
