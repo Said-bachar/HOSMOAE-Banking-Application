@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+<div th:replace="views/admin/fragments :: scripts"></div>
+	<div class="formcontainer">
+	    <p style="font-size:20px" align="center">Change Password</span></p>
+	    <form th:action="@{/admin/config/change_password}" method="post">
+	    <div class="formdiv" onSubmit = "return checkPassword(this)">
+	            <label for="oldPassword">Old Password</label>
+	            <input class="formin" type="password" align="center" placeholder="Your old Password" name="oldPassword" id="oldPassword" required>
+	      </div>
+	     <div class="formdiv">
+	            <label for="newPassword">New Password</label>
+	            <input class="formin" type="password" align="center" placeholder="Your new Password" name="newPassword" id="newPassword" required>
+	      </div>
+	      <div class="formdiv">
+	            <label for="newPasswordConfirm">Confirm Password</label>
+	            <input class="formin" type="password" align="center" placeholder="Confirm your new Password" name="newPasswordConfirm" id="newPasswordConfirm" required>
+	      </div>
+	      <button type="submit" align="center"class="submit">Change</button>
+	      <div id="confirmError"></div>
+	    </form>          
+ </div>
+</body>
+</html>

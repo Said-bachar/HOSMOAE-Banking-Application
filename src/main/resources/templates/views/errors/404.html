@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'AKINOBANK - Page introuvable')"></head>
+<body style="margin:0">
+    <img src="/images/404.jpg" style="max-width: 100%;max-height: 100%" />
+<div th:replace="views/admin/fragments ::
+    header(title = 'Error HTTP 404',
+    description = '')">
+</div>
+</body>
+</html>

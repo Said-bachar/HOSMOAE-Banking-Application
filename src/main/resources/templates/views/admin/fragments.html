@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head  th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Hosmoa Bank - [[${title}]]</title>
+    <link rel="stylesheet" href="/css/frag.css">
+     <link href="/css/user.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/useradd.css" />
+</head>
+<body>
+    <nav th:fragment="navbar">
+    	<img src="/images/HosmoaBank.png" id="logo" />
+	    <ul>
+	        <li>
+	            <a href="/admin">
+	                <div class="icon">
+	                    <i class="fa fa-home" aria-hidden="true"><img src="/images/homeblack.png" /></i>
+	                    <i class="fa fa-home" aria-hidden="true"><img src="/images/homeblack.png" /></i>
+	                </div>
+	                <div class="name"><span data-text="Home">Home</span></div>
+	                <!-- we are create first menu item name home -->
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/admin/users">
+	                <!-- this anchor text for link your About page to another page -->
+	                <div class="icon">
+	                    <i class="fa fa-file" aria-hidden="true"><img src="/images/conference-32.png" /></i>
+	                    <i class="fa fa-file" aria-hidden="true"><img src="/images/conference-32.png" /></i>		
+	                </div>
+	                <div class="name"><span data-text="Users">Users</span></div>
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/admin/agencies">
+	                <div class="icon">
+	                    <i class="fa fa-cogs" aria-hidden="true"><img src="/images/bank-3-32.png" /></i>	
+	                    <i class="fa fa-cogs" aria-hidden="true"><img src="/images/bank-3-32.png" /></i>	
+	                </div>
+	                <div class="name"><span data-text="Agencies">Agencies</span></div>
+	                <!--- we are create third menu item name services -->
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/admin/config">
+	                <!-- this anchor text for link your About page to another page -->
+	                <div class="icon">
+	                    <i class="fa fa-file" aria-hidden="true"><img src="/images/config.png" /></i>
+	                    <i class="fa fa-file" aria-hidden="true"><img src="/images/config.png" /></i>		
+	                </div>
+	                <div class="name"><span data-text="Config">Config</span></div>
+	            </a>
+	        </li>
+	        <li>
+	            <a href="/logout">
+	                <div class="icon">
+	                    <i class="fa fa-picture-o" aria-hidden="true"><img src="/images/logout.png" /></i>	
+	                    <i class="fa fa-picture-o" aria-hidden="true"><img src="/images/logout.png" /></i>	
+	                </div>
+	                <div class="name" ><span data-text="Logout">Logout</span></div>
+	            </a>
+	        </li>
+	    </ul>
+	</nav>
+	<div class="welcome" th:fragment="header(title, description)">
+	    <h1>[[${title}]]</h1>
+	    <p>[[${description}]]</p>
+	</div>
+	<div th:fragment="scripts">
+	    <script src="/js/jquery-3.4.1.slim.min.js?v=prod" ></script>
+	    <script src="/js/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	    <script src="/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	    <script type="text/javascript">
+		function checkPassword(form) {
+                password1 = form.newPassword.value;
+                password2 = form.newPasswordConfirm.value;
+                if (password1 == '')
+                    alert ("Please enter Password");
+                else if (password2 == '')
+                    alert ("Please enter confirm password");   
+                else if (password1 != password2) {
+                    alert ("\nPassword did not match: Please try again...")
+                    return false;
+                else{
+                    alert("Password Match!")
+                    return true;
+                }
+            }
+		</script>
+	</div>
+</body>
+</html>

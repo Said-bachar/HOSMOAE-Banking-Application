@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="views/admin/fragments :: head(title = 'Panneau d\'administrateur')"></head>
+<body>
+<nav th:replace="views/admin/fragments :: navbar"></nav>
+	<div class="formcontainer">
+	        <div class="formdiv">
+	            <label for="email">AdminEmail</label>
+	            <input type="text" class="formin" id="email" th:value="*{email}" readonly>
+	            <a href="/admin/config/change_password">
+	            		  <button class="formin" value="Change" style="width:90px;cursor:pointer">
+	            		  Change
+	            		  </button>
+	            </a>
+	        </div>
+	        <div class="formdiv">
+	            <label for="password">Password&nbsp;&nbsp;&nbsp;</label>
+	            <input type="text" class="formin" id="password" value="************" readonly>
+	            <a href="/admin/config/change_password">
+	            		  <button class="formin" value="Change" style="width:90px;cursor:pointer">
+	            		  Change
+	            		  </button>
+	            </a>
+	        </div>
+	</div>
+	<div th:replace="views/admin/fragments :: scripts"></div>
+</body>
+</html>
