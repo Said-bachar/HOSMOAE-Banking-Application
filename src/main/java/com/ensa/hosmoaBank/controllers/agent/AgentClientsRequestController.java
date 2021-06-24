@@ -32,7 +32,7 @@ import com.ensa.hosmoaBank.services.UploadService;
 @RestController
 @RequestMapping("/agent/api/clients/requests")
 @Transactional
-@CrossOrigin(value = "*")
+@CrossOrigin(value = {"https://hosmoa-bank-front.vercel.app"})
 public class AgentClientsRequestController {
 	
 	Logger logger = LoggerFactory.getLogger(AgentClientsRequestController.class);

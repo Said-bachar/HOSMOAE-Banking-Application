@@ -48,7 +48,7 @@ import com.ensa.hosmoaBank.services.UploadService;
 @RestController
 @RequestMapping("/agent/api/profile")
 @Transactional
-@CrossOrigin(value = "*")
+@CrossOrigin(value = {"https://hosmoa-bank-front.vercel.app"})
 public class AgentProfileController {
 
 	Logger logger = LoggerFactory.getLogger(AgentProfileController.class);

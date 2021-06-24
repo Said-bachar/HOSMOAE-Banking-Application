@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 @RestController
 @RequestMapping("/agent/api/agence")
 @Transactional
-@CrossOrigin(value = "*")
+@CrossOrigin(value = {"https://hosmoa-bank-front.vercel.app"})
 public class AgentAgencyController {
 
     Logger logger = LoggerFactory.getLogger(AgentAgencyController.class);

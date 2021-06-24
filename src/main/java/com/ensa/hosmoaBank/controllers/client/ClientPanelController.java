@@ -72,7 +72,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(value = {"https://hosmoa-bank-front.vercel.app"}, allowedHeaders = "*")
 @RequestMapping("/client/api")
 @Log4j2
 @RequiredArgsConstructor

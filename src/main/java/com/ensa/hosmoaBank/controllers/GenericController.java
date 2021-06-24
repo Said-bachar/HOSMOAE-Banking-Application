@@ -48,7 +48,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @Controller
-@CrossOrigin("*")
+@CrossOrigin(value = {"https://hosmoa-bank-front.vercel.app"})
 @RequiredArgsConstructor
 public class GenericController {
 

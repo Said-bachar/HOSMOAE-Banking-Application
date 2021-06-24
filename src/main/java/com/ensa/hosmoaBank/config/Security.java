@@ -1,5 +1,7 @@
 package com.ensa.hosmoaBank.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,7 +77,7 @@ public class Security extends WebSecurityConfigurerAdapter implements WebMvcConf
             .allowCredentials(false)    //true!!
             .allowedHeaders("*")
             .allowedMethods("GET, POST, PATCH, PUT, DELETE, OPTIONS")
-            .allowedOriginPatterns("*");
+            .allowedOrigins("https://hosmoa-bank-front.vercel.app","*");
     }
 
 //    @Override

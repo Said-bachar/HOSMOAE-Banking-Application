@@ -33,7 +33,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/agent/api/clients")
 @Transactional
-@CrossOrigin(value = "*")
+@CrossOrigin(value = {"https://hosmoa-bank-front.vercel.app"})
 public class AgentClientsAccountsController {
 	
 	
