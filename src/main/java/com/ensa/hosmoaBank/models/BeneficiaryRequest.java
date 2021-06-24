@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BeneficiaryRequest {
 	@CreditCardNumber
-	String accountNumber;
+	String acountNumber;
 	String firstName;
 	String lastName;
 }

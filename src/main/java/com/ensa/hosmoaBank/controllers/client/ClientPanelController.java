@@ -67,6 +67,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.text.BreakIterator;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -636,18 +637,29 @@ public class ClientPanelController {
   @PostMapping(value="/addBeneficiary")
   public ResponseEntity<String> addBeneficiary(@RequestBody BeneficiaryRequest beneficiaryRequest){
 	  Beneficiary newBeneficiary = new Beneficiary();
+	  System.out.println(beneficiaryRequest.getAcountNumber());
 	  this.getClient().getAccounts().forEach(account->{
-		  if(account.getAccountNumber().equals(beneficiaryRequest.getAccountNumber())) {
+		  if(account.getAccountNumber().equals(beneficiaryRequest.getAcountNumber())) {
 			  throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Account is invalid.");
 		  }
 	  });
-	  newBeneficiary.setAccountNumber(beneficiaryRequest.getAccountNumber());
+	  Collection<String> listNumberAcc=new ArrayList<String>();
+	  this.accountRepository.findAll().forEach(acc->{
+		  listNumberAcc.add(acc.getAccountNumber());
+//		  if(!acc.getAccountNumber().equals(beneficiaryRequest.getAccountNumber())) {
+//			  
+//		  }
+	  });
+	  if(!listNumberAcc.contains(beneficiaryRequest.getAcountNumber())) {
+		  throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Account is not found.");
+	  }
+	  newBeneficiary.setAccountNumber(beneficiaryRequest.getAcountNumber());
 	  newBeneficiary.setFirstName(beneficiaryRequest.getFirstName());
 	  newBeneficiary.setLastName(beneficiaryRequest.getLastName());
 	  newBeneficiary.setClient(getClient());
 	  this.beneficiaryRepository.save(newBeneficiary);
 	  
-	  return ResponseEntity.ok("Beneficiary is created.");
+	  return new ResponseEntity<>(HttpStatus.OK);
   }
   @GetMapping(value = "/allBeneficiaries") // return Client by id
   public Collection<Beneficiary> getBeneficiaries() {
