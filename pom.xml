@@ -16,6 +16,7 @@
 	<description>E-banking Application that allows you to perform safe and fast banking transactions.</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.projectKey>sampleTest</sonar.projectKey>
 	</properties>
 	<dependencies>
 	
